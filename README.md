@@ -6,7 +6,7 @@ This small tool can help with finding an arrangement of straight lines that corr
 
 Additionally, for a given arrangement of pseudolines, it can generate a beautiful SVG file with a circular visual representation of the arrangement. Finally, for a given set of straight lines, it can generate a visual representation of these arrangements, showing all the non-overlapping triangles.
 
-[Gallery]
+[Gallery](https://zegalur.github.io/line-order/gallery/)
 
 ## How To Use
 
@@ -69,7 +69,7 @@ if result_svg['status'] == 'OK':
     ...
 ```
 
-This will give you the results shown in the title image above. For more examples, see [Gallery].
+This will give you the results shown in the title image above. For more examples, see [Gallery](https://zegalur.github.io/line-order/gallery/).
 
 ## Table Representation
 
