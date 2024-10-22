@@ -93,10 +93,10 @@ Each unknown line is represented by two unknown variables: `ai` (angle), and `Ci
 x \cos{a_i} + y \sin{a_i} + C_i = 0, \ \ \ i=1,2,...,N
 ```
 
-For a given line `i`, two consecutive entries `j` and `k` in the i-th table row tell us that line `j` must intersect line `i` before line `k` intersects line `i`. With `ai,ai,ak` and `Ci,Cj,Ck` this condition can be formulated using this inequality:
+For a given line `i`, two consecutive entries `j` and `k` in the i-th table row tell us that line `j` must intersect line `i` before line `k` intersects line `i`. With `ai,aj,ak` and `Ci,Cj,Ck` this condition can be formulated using this inequality:
 
 ```math
-S(i,j,k) \cdot F(i,j,k) < 0, \ \ \text{where} \\ 
+S(i,j,k) \cdot F(i,j,k) < 0, \ \ \text{where} \ \ \\ 
 F(i,j,k) = 
     C_i \cdot \sin(a_k - a_j) + 
     C_j \cdot \sin(a_i - a_k) + 
@@ -120,9 +120,9 @@ def S(row, l1, l2):
 The other limitations is for line angles `ai` and signed distances `Ci`:
 
 ```math
-a_i > a_{i+1}, \\ 
--\pi < a_i < 0, \\ 
-A_{min} < |a_i - a_{i+1}| < A_{max} \\ 
+a_i > a_{i+1}, \ \\ 
+-\pi < a_i < 0, \ \\ 
+A_{min} < |a_i - a_{i+1}| < A_{max}, \ \\ 
 \ \\
 C_{min} < C_i < C_{max}
 ```
@@ -136,7 +136,7 @@ In its core, the solver works by minimizing a special *target function*. Smaller
 Conditions for inequalities codified using:
 
 ```math
-\text{LessThan}(a,v) = 
+\text{LessThan}(x,v) = 
 \begin{cases}
  0, & \text{ if } \ x < v \\
  (x-v)^2, & \text{ if } \ x >= v
