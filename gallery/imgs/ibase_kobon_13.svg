@@ -18,7 +18,7 @@
     
     
     <text x='20' y='30'>(13 lines, 47 triangles, 47 upper bound)</text>
-    <text x='20' y='45'>(x3 scaled by X)</text>
+    <text x='20' y='45'>(X scaled by 1/3)</text>
 
     
 <path d='M 70.18561784320346 200.0 L 139.75293557292105 200.0 L 143.24887346794094 206.39537557682763' />

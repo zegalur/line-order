@@ -144,7 +144,7 @@ entries = {
     'draw_lines_args' : {
         'size_px' : 400.0,
         'scale_x' : 3.0,
-        'title_text' : '(x3 scaled by X)'
+        'title_text' : '(X scaled by 1/3)'
     },
 },
 
