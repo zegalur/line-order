@@ -4,9 +4,12 @@
 
 This small tool can help with finding an arrangement of straight lines that corresponds to a given arrangement of pseudolines (taking into account rotational or mirror symmetry). Also known as *straightening*.
 
-Additionally, for a given arrangement of pseudolines, it can generate a beautiful SVG file with a circular visual representation of the arrangement. Finally, for a given set of straight lines, it can generate a visual representation of these arrangements, showing all the non-overlapping triangles.
+Additionally, for a given arrangement of pseudolines, it can generate a beautiful SVG file with a circular visual representation of the arrangement. For a given set of straight lines, it can generate a visual representation of these arrangements, showing all the non-overlapping triangles.
 
-[Gallery](https://zegalur.github.io/line-order/gallery/)
+Finally, this tool can find arrangements in the form of `y = mi(x-ai)`, where `ai` are either very small values or `tan((+/-)i*pi/(N-1))` (see. [Gallery #2](https://zegalur.github.io/line-order/gallery/index_2.html) for some examples). These are special kinds of arrangements that are suitable for Proposition 3.1. from [this paper](https://www.researchgate.net/publication/1893173_On_simple_arrangements_of_lines_and_pseudo-lines_in_P2_and_R2_with_the_maximum_number_of_triangles).
+
+[Gallery #1](https://zegalur.github.io/line-order/gallery/index.html)<br>
+[Gallery #2](https://zegalur.github.io/line-order/gallery/index_2.html)
 
 ## How To Use
 
@@ -161,6 +164,7 @@ Written in Python 3.8 and uses `SciPy`, `NumPy` and `Matplotlib` libraries.
 
 * [Arrangement of lines (Wikipedia)](https://en.wikipedia.org/wiki/Arrangement_of_lines)
 * [Kobon triangle problem (Wikipedia)](https://en.wikipedia.org/wiki/Kobon_triangle_problem)
+* Bartholdi, Nicolas & Blanc, Jérémy & Loisel, Sébastien. *On simple arrangements of lines and pseudo-lines in P^2 and R^2 with the maximum number of triangles.* 2007. [(link)](https://www.researchgate.net/publication/1893173_On_simple_arrangements_of_lines_and_pseudo-lines_in_P2_and_R2_with_the_maximum_number_of_triangles) 
 
 ## License
 

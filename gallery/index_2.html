@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>LineOrder Gallery #2</title>
+</head>
+
+<style>
+    img { 
+        display:block;
+        max-width: 100%;
+        height: auto;
+        width: auto;
+        padding: inherit;
+        margin: auto;
+    }
+
+    td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    p {
+        display:block;
+    }
+
+    table {
+        max-width:"100%";
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    hr {
+        border: 1px solid lightgray;
+        margin-top: 40px;
+    }
+
+    .tab {
+        display:block;
+        max-width: 100%;
+        height: auto;
+        width: auto;
+        font-family: 'Courier New', Courier, monospace;
+    }
+</style>
+
+<body>
+
+<h1>LineOrder Gallery #2</h1>
+
+
+<hr>
+<h2>Kobon 5-Lines<br>(5 Triangles, Mirror Symmetry)</h2>
+<table>
+    <colgroup>
+        <col span="1" style="width: 40%;">
+        <col span="1" style="width: 60%;">
+    </colgroup>
+    <tbody>
+        <tr>
+            <td style='text-align:center;'><pre class='tab' 
+                style='font-size:10pt; text-align:left;'>
+y = m<sub>i</sub>(x - a<sub>i</sub>), i = 0..4:<br><br>&epsilon; = 1 / 10 < 1 / 8<br><br>m<sub>0</sub> = 0, a<sub>0</sub> = 0<br>m<sub>1</sub> = -1.3763819, a<sub>1</sub> = tan(-1&#x1D70B;/4)<br>m<sub>2</sub> = -19.9833325, a<sub>2</sub> = &epsilon;<br>m<sub>3</sub> = 19.9833325, a<sub>3</sub> = -&epsilon;<br>m<sub>4</sub> = 1.3763819, a<sub>4</sub> = tan(1&#x1D70B;/4)<br><br><br>For wxMaxima:<br>0,<br>-1.3763819 * (x - tan(-1 * %pi / 4)),<br>-19.9833325 * (x + 1/10),<br>19.9833325 * (x - 1/10),<br>1.3763819 * (x - tan(1 * %pi / 4)),<br>
+                </pre></td>
+            <td><img src="imgs/ibase_kobon_5.svg" /></td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+<h2>Kobon 7-Lines<br>(11 Triangles, Mirror Symmetry)</h2>
+<table>
+    <colgroup>
+        <col span="1" style="width: 40%;">
+        <col span="1" style="width: 60%;">
+    </colgroup>
+    <tbody>
+        <tr>
+            <td style='text-align:center;'><pre class='tab' 
+                style='font-size:10pt; text-align:left;'>
+y = m<sub>i</sub>(x - a<sub>i</sub>), i = 0..6:<br><br>&epsilon; = 1 / 14 < 1 / 12<br><br>m<sub>0</sub> = 0, a<sub>0</sub> = 0<br>m<sub>1</sub> = -0.7974734, a<sub>1</sub> = tan(-1&#x1D70B;/6)<br>m<sub>2</sub> = -2.0765214, a<sub>2</sub> = tan(-2&#x1D70B;/6)<br>m<sub>3</sub> = -19.9833325, a<sub>3</sub> = &epsilon;<br>m<sub>4</sub> = 19.9833325, a<sub>4</sub> = -&epsilon;<br>m<sub>5</sub> = 2.0765214, a<sub>5</sub> = tan(2&#x1D70B;/6)<br>m<sub>6</sub> = 0.7974734, a<sub>6</sub> = tan(1&#x1D70B;/6)<br><br><br>For wxMaxima:<br>0,<br>-0.7974734 * (x - tan(-1 * %pi / 6)),<br>-2.0765214 * (x - tan(-2 * %pi / 6)),<br>-19.9833325 * (x + 1/14),<br>19.9833325 * (x - 1/14),<br>2.0765214 * (x - tan(2 * %pi / 6)),<br>0.7974734 * (x - tan(1 * %pi / 6)),<br>
+                </pre></td>
+            <td><img src="imgs/ibase_kobon_7.svg" /></td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+<h2>Kobon 9-Lines<br>(21 Triangles, Mirror Symmetry)</h2>
+<table>
+    <colgroup>
+        <col span="1" style="width: 40%;">
+        <col span="1" style="width: 60%;">
+    </colgroup>
+    <tbody>
+        <tr>
+            <td style='text-align:center;'><pre class='tab' 
+                style='font-size:10pt; text-align:left;'>
+y = m<sub>i</sub>(x - a<sub>i</sub>), i = 0..8:<br><br>&epsilon; = 1 / 18 < 1 / 16<br><br>m<sub>0</sub> = 0, a<sub>0</sub> = 0<br>m<sub>1</sub> = -0.5773503, a<sub>1</sub> = tan(-3&#x1D70B;/8)<br>m<sub>2</sub> = -1.1917536, a<sub>2</sub> = tan(-1&#x1D70B;/8)<br>m<sub>3</sub> = -2.7474774, a<sub>3</sub> = tan(-2&#x1D70B;/8)<br>m<sub>4</sub> = -19.9833325, a<sub>4</sub> = &epsilon;<br>m<sub>5</sub> = 19.9833325, a<sub>5</sub> = -&epsilon;<br>m<sub>6</sub> = 2.7474774, a<sub>6</sub> = tan(2&#x1D70B;/8)<br>m<sub>7</sub> = 1.1917536, a<sub>7</sub> = tan(1&#x1D70B;/8)<br>m<sub>8</sub> = 0.5773503, a<sub>8</sub> = tan(3&#x1D70B;/8)<br><br><br>For wxMaxima:<br>0,<br>-0.5773503 * (x - tan(-3 * %pi / 8)),<br>-1.1917536 * (x - tan(-1 * %pi / 8)),<br>-2.7474774 * (x - tan(-2 * %pi / 8)),<br>-19.9833325 * (x + 1/18),<br>19.9833325 * (x - 1/18),<br>2.7474774 * (x - tan(2 * %pi / 8)),<br>1.1917536 * (x - tan(1 * %pi / 8)),<br>0.5773503 * (x - tan(3 * %pi / 8)),<br>
+                </pre></td>
+            <td><img src="imgs/ibase_kobon_9.svg" /></td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+<h2>11-Lines (32 Triangles)<br>(not suitable for Proposition 3.1)</h2>
+<table>
+    <colgroup>
+        <col span="1" style="width: 40%;">
+        <col span="1" style="width: 60%;">
+    </colgroup>
+    <tbody>
+        <tr>
+            <td style='text-align:center;'><pre class='tab' 
+                style='font-size:10pt; text-align:left;'>
+y = m<sub>i</sub>(x - a<sub>i</sub>), i = 0..10:<br><br>&epsilon; = 1 / 22 < 1 / 20<br><br>m<sub>0</sub> = 0, a<sub>0</sub> = 0<br>m<sub>1</sub> = -0.2615465, a<sub>1</sub> = tan(-4&#x1D70B;/10)<br>m<sub>2</sub> = -1.0298714, a<sub>2</sub> = tan(1&#x1D70B;/10)<br>m<sub>3</sub> = -2.0130975, a<sub>3</sub> = tan(-2&#x1D70B;/10)<br>m<sub>4</sub> = -4.3446427, a<sub>4</sub> = -&epsilon;<br>m<sub>5</sub> = -25.5645486, a<sub>5</sub> = tan(-3&#x1D70B;/10)<br>m<sub>6</sub> = 2.7017707, a<sub>6</sub> = tan(-1&#x1D70B;/10)<br>m<sub>7</sub> = 1.4888582, a<sub>7</sub> = &epsilon;<br>m<sub>8</sub> = 1.0746682, a<sub>8</sub> = tan(2&#x1D70B;/10)<br>m<sub>9</sub> = 0.718313, a<sub>9</sub> = tan(3&#x1D70B;/10)<br>m<sub>10</sub> = 0.1670701, a<sub>10</sub> = tan(4&#x1D70B;/10)<br><br><br>For wxMaxima:<br>0,<br>-0.2615465 * (x - tan(-4 * %pi / 10)),<br>-1.0298714 * (x - tan(1 * %pi / 10)),<br>-2.0130975 * (x - tan(-2 * %pi / 10)),<br>-4.3446427 * (x - 1/22),<br>-25.5645486 * (x - tan(-3 * %pi / 10)),<br>2.7017707 * (x - tan(-1 * %pi / 10)),<br>1.4888582 * (x + 1/22),<br>1.0746682 * (x - tan(2 * %pi / 10)),<br>0.718313 * (x - tan(3 * %pi / 10)),<br>0.1670701 * (x - tan(4 * %pi / 10)),<br>
+                </pre></td>
+            <td><img src="imgs/ibase_11.svg" /></td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+<h2>Kobon 13-Lines<br>(47 Triangles, Mirror Symmetry)</h2>
+<table>
+    <colgroup>
+        <col span="1" style="width: 40%;">
+        <col span="1" style="width: 60%;">
+    </colgroup>
+    <tbody>
+        <tr>
+            <td style='text-align:center;'><pre class='tab' 
+                style='font-size:10pt; text-align:left;'>
+y = m<sub>i</sub>(x - a<sub>i</sub>), i = 0..12:<br><br>&epsilon; = 1 / 26 < 1 / 24<br><br>m<sub>0</sub> = 0, a<sub>0</sub> = 0<br>m<sub>1</sub> = -0.2885672, a<sub>1</sub> = tan(-5&#x1D70B;/12)<br>m<sub>2</sub> = -0.7122037, a<sub>2</sub> = tan(-1&#x1D70B;/12)<br>m<sub>3</sub> = -0.8749275, a<sub>3</sub> = tan(-3&#x1D70B;/12)<br>m<sub>4</sub> = -3.6695798, a<sub>4</sub> = tan(-2&#x1D70B;/12)<br>m<sub>5</sub> = -6.0309011, a<sub>5</sub> = tan(-4&#x1D70B;/12)<br>m<sub>6</sub> = -15.8847779, a<sub>6</sub> = &epsilon;<br>m<sub>7</sub> = 15.8847779, a<sub>7</sub> = -&epsilon;<br>m<sub>8</sub> = 6.0309011, a<sub>8</sub> = tan(4&#x1D70B;/12)<br>m<sub>9</sub> = 3.6695798, a<sub>9</sub> = tan(2&#x1D70B;/12)<br>m<sub>10</sub> = 0.8749275, a<sub>10</sub> = tan(3&#x1D70B;/12)<br>m<sub>11</sub> = 0.7122037, a<sub>11</sub> = tan(1&#x1D70B;/12)<br>m<sub>12</sub> = 0.2885672, a<sub>12</sub> = tan(5&#x1D70B;/12)<br><br><br>For wxMaxima:<br>0,<br>-0.2885672 * (x - tan(-5 * %pi / 12)),<br>-0.7122037 * (x - tan(-1 * %pi / 12)),<br>-0.8749275 * (x - tan(-3 * %pi / 12)),<br>-3.6695798 * (x - tan(-2 * %pi / 12)),<br>-6.0309011 * (x - tan(-4 * %pi / 12)),<br>-15.8847779 * (x + 1/26),<br>15.8847779 * (x - 1/26),<br>6.0309011 * (x - tan(4 * %pi / 12)),<br>3.6695798 * (x - tan(2 * %pi / 12)),<br>0.8749275 * (x - tan(3 * %pi / 12)),<br>0.7122037 * (x - tan(1 * %pi / 12)),<br>0.2885672 * (x - tan(5 * %pi / 12)),<br>
+                </pre></td>
+            <td><img src="imgs/ibase_kobon_13.svg" /></td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+
+</body>

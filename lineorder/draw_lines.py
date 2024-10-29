@@ -65,9 +65,13 @@ def draw_lines(
     for i in range(len(input)):
         for j in range(i + 1, len(input)):
             v1 = get_intersection_point(c[i], c[j])
+            if v1 is None: continue
             for k in range(j + 1, len(input)):
                 v2 = get_intersection_point(c[i], c[k])
                 v3 = get_intersection_point(c[j], c[k])
+
+                if v2 is None: continue
+                if v3 is None: continue
 
                 # Triangles with a very small side are skipped.
                 if np.linalg.norm(v1-v2) < epsilon: continue
@@ -148,8 +152,12 @@ def draw_lines(
         ax, ay = a[0], a[1]
         vx, vy = v[0], v[1]
 
-        a1 = -(np.sqrt((1-ax**2)*vy**2+2*ax*ay*vx*vy+(1-ay**2)*vx**2)+ay*vy+ax*vx)/(vy**2+vx**2)
-        a2 = (np.sqrt((1-ax**2)*vy**2+2*ax*ay*vx*vy+(1-ay**2)*vx**2)-ay*vy-ax*vx)/(vy**2+vx**2)
+        sqrt_arg = (1-ax**2)*vy**2+2*ax*ay*vx*vy+(1-ay**2)*vx**2
+        if sqrt_arg < 0:
+            continue
+
+        a1 = -(np.sqrt(sqrt_arg)+ay*vy+ax*vx)/(vy**2+vx**2)
+        a2 = (np.sqrt(sqrt_arg)-ay*vy-ax*vx)/(vy**2+vx**2)
 
         r1 = a + a1 * v
         r2 = a + a2 * v
