@@ -14,6 +14,7 @@ entries = {
         [3,1],
         [2,1],
     ],
+    'first_row' : 1,
     'table_font_size' : "10pt",
     'find_lines_args' : {
         'rotational_symmetry' : 3,
@@ -32,7 +33,7 @@ entries = {
 
 ################################################################################
 
-'pentagram_3_rot_symmetry' : {
+'pentagram_5_rot_symmetry' : {
     'entry_title' : 'Pentagram\n(5-rotational symmetry)',
     'entry_table' : [
         [5,3,4,2], 
@@ -41,6 +42,7 @@ entries = {
         [5,2,1,3],
         [4,2,3,1],
     ],
+    'first_row' : 1,
     'table_font_size' : "10pt",
     'find_lines_args' : {
         'rotational_symmetry' : 5,
@@ -72,6 +74,7 @@ entries = {
         [9,6,2,4,1,5,3,7],
         [8,6,7,4,5,2,3,1],
     ],
+    'first_row' : 1,
     'table_font_size' : "8pt",
     'find_lines_args' : {
         'rotational_symmetry' : 3,
@@ -104,6 +107,7 @@ entries = {
         [4,3,5,2,6,7,9,1],
         [4,3,2,5,6,7,8,1],
     ],
+    'first_row' : 1,
     'table_font_size' : "10pt",
     'find_lines_args' : {
         'ineq_epsilon' : 0.3,
@@ -145,6 +149,7 @@ entries = {
         [21,8,4,18,6,10,2,12,5,9,7,14,3,13,11,16,1,17,15,19],
         [20,8,18,4,10,6,14,12,16,9,19,7,13,2,11,5,17,3,15,1],
     ],
+    'first_row' : 1,
     'table_font_size' : "8pt",
     'find_lines_args' : {
         'rotational_symmetry' : 3,
@@ -180,6 +185,7 @@ entries = {
         [15,4,2,10,3,8,6,9,5,12,7,11,1,13,],
         [14,4,10,2,8,3,9,6,12,5,11,7,13,1,],
     ],
+    'first_row' : 1,
     'table_font_size' : "8pt",
     'find_lines_args' : {
         'rotational_symmetry' : 5,
@@ -208,6 +214,7 @@ entries = {
         [5,1,4,2,3,7,],
         [1,5,2,4,3,6,],
     ],
+    'first_row' : 1,
     'table_font_size' : "10pt",
     'find_lines_args' : {
         'ineq_epsilon' : 0.3,
@@ -237,11 +244,74 @@ entries = {
         [7,5,6,1,4,2,3,9,],
         [1,5,2,6,4,7,3,8,],
     ],
+    'first_row' : 1,
     'table_font_size' : "10pt",
     'find_lines_args' : {
         'ineq_epsilon' : 0.3,
         'ineq_max' : 20.0,
         'min_angle' : 0.2,
+    },
+    'draw_plines_args' : {
+        'size_px' : 400.0,
+    },
+    'draw_lines_args' : {
+        'size_px' : 400.0,
+    },
+},
+
+################################################################################
+
+'11_no_sym_32tri' : {
+    'entry_title' : '11 lines without symmetries',
+    'entry_table' : [
+        [3,2,5,4,7,6,11,9,10,8],
+        [3,1,5,11,7,10,6,9,4,8],
+        [2,1,11,5,10,7,9,6,8,4],
+        [5,1,7,11,6,10,9,2,8,3],
+        [4,1,2,11,3,10,9,7,8,6],
+        [7,1,11,4,10,2,9,3,8,5],
+        [6,1,4,11,2,10,3,9,5,8],
+        [9,11,10,1,2,4,3,6,5,7],
+        [8,11,1,10,4,2,6,3,7,5],
+        [11,8,1,9,4,6,2,7,3,5],
+        [10,8,9,1,6,4,7,2,5,3],
+    ],
+    'first_row' : 3,
+    'table_font_size' : "10pt",
+    'find_lines_args' : {
+        'fixed_first_line_segments' : True,
+    },
+    'draw_plines_args' : {
+        'size_px' : 400.0,
+    },
+    'draw_lines_args' : {
+        'size_px' : 400.0,
+    },
+},
+
+################################################################################
+
+'kobon_13_m_sym_47tri' : {
+    'entry_title' : '13 lines with mirror symmetry',
+    'entry_table' : [
+        [13,9,11,10,12,7,8,3,5,4,6,2],
+        [3,9,4,10,7,13,8,11,5,12,6,1],
+        [2,9,13,10,11,7,12,8,1,5,6,4],
+        [9,2,10,13,7,11,8,12,5,1,6,3],
+        [9,7,10,8,13,11,2,12,4,1,3,6],
+        [7,9,8,10,11,13,12,2,1,4,3,5],
+        [6,9,5,10,2,13,4,11,3,12,1,8],
+        [9,6,10,5,13,2,11,4,12,3,1,7],
+        [8,6,7,5,4,2,3,13,1,11,12,10],
+        [6,8,5,7,2,4,13,3,11,1,12,9],
+        [6,13,5,2,8,4,7,3,10,1,9,12],
+        [13,6,2,5,4,8,3,7,1,10,9,11],
+        [12,6,11,5,8,2,7,4,10,3,9,1],
+    ],
+    'first_row' : 1,
+    'table_font_size' : "10pt",
+    'find_lines_args' : {
+        'mirrored' : True,
     },
     'draw_plines_args' : {
         'size_px' : 400.0,
@@ -260,66 +330,8 @@ entries = {
 
 ERROR_PNG_FILENAME = "gallery/imgs/error.svg"
 
-gallery_html = """<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <title>LineOrder Gallery</title>
-</head>
-
-<style>
-    img { 
-        display:block;
-        max-width: 100%;
-        height: auto;
-        width: auto;
-        padding: inherit;
-        margin: auto;
-    }
-
-    td {
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    p {
-        display:block;
-    }
-
-    table {
-        max-width:"100%";
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    h1 {
-        text-align: center;
-    }
-
-    h2 {
-        text-align: center;
-    }
-
-    hr {
-        border: 1px solid lightgray;
-        margin-top: 40px;
-    }
-
-    .tab {
-        display:block;
-        max-width: 100%;
-        height: auto;
-        width: auto;
-        font-family: 'Courier New', Courier, monospace;
-    }
-</style>
-
-<body>
-
-<h1>LineOrder Gallery</h1>
-
-"""
+gallery_html = lineorder.gallery_html_header.format(
+    title="LineOrder Gallery", header="LineOrder Gallery")
 
 entry_template = """
 <hr>
@@ -341,8 +353,9 @@ entry_template = """
 """
 
 for key, entry in entries.items():
-    entry_table = entry['entry_table']
     print("Generating " + key + " ...")
+    entry_table = entry['entry_table']
+    entry_table = lineorder.reindex_table(entry_table, entry['first_row'])
 
     # Generate pseudolines SVG
 

@@ -17,6 +17,10 @@ def get_intersection_point(l1, l2):
     """
     a = np.array([[l1[0], l1[1]], [l2[0], l2[1]]])  # [[A1, B1], [A2, B2]]
     b = np.array([-l1[2], -l2[2]])                  # [C1, C2]
+
+    if np.linalg.matrix_rank(a) != 2:
+        return None
+
     return np.linalg.solve(a, b)
 
 
@@ -44,3 +48,93 @@ svg_header = '''<?xml version="1.0" encoding="UTF-8" standalone="no"?>
     <rect width="100%" height="100%" fill="white"/>
     
     '''
+
+
+def reindex_table(table_in, new_first_row):
+    """Renumbering and reordering of a table. In a new table `new_first_row` is
+    the first lines (and first row of the table).
+
+    Arguments:
+        `table_in` -- a well formed table for `N` lines.
+        `new_first_row` -- sets what row will be a new first row (from 1 to N).
+    
+    Returns the renumbered and reordered table. Returns `None` if the input was 
+    incorrect.
+    """
+    N = len(table_in)
+    if (new_first_row > N) or (new_first_row < 1):
+        return None
+    
+    result = []
+    for line_index, row in enumerate(table_in):
+        new_row = []
+        for index in row:
+            new_row.append((N + index - new_first_row) % N + 1)
+        if (line_index + 1) < new_first_row:
+            new_row.reverse()
+        result.append(new_row)
+    
+    result = result[-(N - new_first_row + 1):] + result[:(new_first_row - 1)]
+    return result
+
+
+gallery_html_header = """<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>{title}</title>
+</head>
+
+<style>
+    img {{ 
+        display:block;
+        max-width: 100%;
+        height: auto;
+        width: auto;
+        padding: inherit;
+        margin: auto;
+    }}
+
+    td {{
+        text-align: center;
+        vertical-align: middle;
+    }}
+
+    p {{
+        display:block;
+    }}
+
+    table {{
+        max-width:"100%";
+        margin-left: auto;
+        margin-right: auto;
+    }}
+
+    h1 {{
+        text-align: center;
+    }}
+
+    h2 {{
+        text-align: center;
+    }}
+
+    hr {{
+        border: 1px solid lightgray;
+        margin-top: 40px;
+    }}
+
+    .tab {{
+        display:block;
+        max-width: 100%;
+        height: auto;
+        width: auto;
+        font-family: 'Courier New', Courier, monospace;
+    }}
+</style>
+
+<body>
+
+<h1>{header}</h1>
+
+"""

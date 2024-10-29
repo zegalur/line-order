@@ -17,6 +17,9 @@ def solver(
         rotational_symmetry,
         mirrored,
 
+        fixed_first_line_segments,
+        first_line_segment_epsilon,
+
         do_tests,
         show_plots,
 
@@ -43,12 +46,19 @@ def solver(
 
     # Rotational symmetry
     S = 1 if mirrored else rotational_symmetry
+    S = 1 if fixed_first_line_segments else S
 
     # The number of lines
     N = len(input) 
 
     # Period
     P = 1 + (N // 2) if mirrored else N // S 
+
+    # If first_line_segment_epsilon is zero,
+    # automatically select appropriate value.
+    if fixed_first_line_segments:
+        if first_line_segment_epsilon == 0.0:
+            first_line_segment_epsilon = 1 / (2 * N)
 
     # Test related variables
     test_eq = np.zeros((N, 3))
@@ -157,9 +167,31 @@ def solver(
         if x < v: return 0.0
         return (x - v) ** 2
 
+    # Generate the first line segments table (for `fixed_first_line_segments`).
+    seg_2 = [-first_line_segment_epsilon, first_line_segment_epsilon]
+    seg_1 = [np.tan(-i * np.pi / (N - 1)) for i in reversed(range(1,(N-1)//2))]
+    seg_3 = [np.tan( i * np.pi / (N - 1)) for i in range(1,(N-1)//2)]
+    segment_values = seg_1 + seg_2 + seg_3
+    first_line_segments = [0.0]
+    for line_index in range(2,N+1):
+        first_line_segments.append(segment_values[input[0].index(line_index)])
+
     # For i-th line this return (ai*, Ci*) considering all symmetries.
     # i -> (ai, Ci)
-    def get_ac(x, i): 
+    def get_ac(x, i):
+        if fixed_first_line_segments:
+            if i == 0:
+                return (0, 0)
+            ai = 0.0
+            if mirrored:
+                j = i if i < P else (N - i)
+                a0, aj = 0, x[2*j]
+                ai = aj if i < P else (2 * a0 - aj - np.pi)
+            else:
+                ai = x[2*i]
+            Ci = -first_line_segments[i] * np.sin(ai)
+            # TODO: mirrored support
+            return (ai, Ci)
         if mirrored:
             j = i if i < P else (N - i)
             a0, aj, cj = x[0], x[2*j], x[2*j + 1]
@@ -212,11 +244,14 @@ def solver(
         # Other angle constrains.
         for i in range(P):
             (ai, ci) = get_ac(x, i)
-            (aj, cj) = get_ac(x, i + 1)
-
+            
             # The angle between two consecutive lines are in [MIN_A, MAX_A]
-            res += less_than(aj + MIN_A, ai) * angles_coefficient
-            res += less_than(ai, aj + MAX_A) * angles_coefficient
+
+            if (i+1) < N:
+                (aj, cj) = get_ac(x, i + 1)
+                res += less_than(aj + MIN_A, ai) * angles_coefficient
+                res += less_than(ai, aj + MAX_A) * angles_coefficient
+
             if i > 0:
                 (ak, ck) = get_ac(x, i - 1)
                 res += less_than(ai + MIN_A, ak) * angles_coefficient
@@ -239,7 +274,7 @@ def solver(
     # [ a1, C1, a2, C2, ... ]
     x0 = np.zeros(2*P)
     for i in range(P):
-        x0[2*i] = np.pi/2 - i * np.pi / N
+        x0[2*i] = -np.pi/(2*N) - i * np.pi / N
         x0[2*i+1] = (-0.1 if (i % 2) == 0 else 0.1)
 
     # Set the bounding conditions:
@@ -247,7 +282,7 @@ def solver(
     #   -100.0 <= Ci <= 100.0
     bounds = []
     for i in range(P):
-        bounds.append((0, np.pi / S))
+        bounds.append((-np.pi / S, 0))
         bounds.append((-100.0, 100.0)) # (-1.0, 1.0)
 
 
@@ -261,7 +296,7 @@ def solver(
         # draw result lines
         x = np.linspace(-scale, scale)
         fig,ax = plt.subplots()
-        da = 0.05
+        da = 0.0005
         for i in range(N):
             (ai, ci) = get_ac(data, i)
             ai += da
@@ -283,6 +318,7 @@ def solver(
 
     # Get result lines as [ x1,y1, x2,y2 ]
     result['lines'] = []
+    result['lines_ac'] = []
     for i in range(N):
         (ai, ci) = get_ac(res.x, i)
         n = np.array([np.cos(ai), np.sin(ai)])
@@ -291,6 +327,7 @@ def solver(
         p1 = (n*d - v) * 300.0
         p2 = (n*d + v) * 300.0
         result['lines'].append([p1[0], p1[1], p2[0], p2[1]])
+        result['lines_ac'].append([ai, ci])
 
     return result
 
@@ -301,6 +338,9 @@ def test_and_find_lines(
 
         rotational_symmetry = 1,
         mirrored = False,
+
+        fixed_first_line_segments = False,
+        first_line_segment_epsilon = 0.0,
 
         show_plots = False,
 
@@ -332,6 +372,11 @@ def test_and_find_lines(
             Mirrored by (1 + N // 2, 2 + N // 2) pair (by a perpendicular line \
             to the first line).
 
+        `fixed_first_line_segments` -- If `True` finds arrangement in a form for \
+            Proposition 3.1. (only for odd number of lines, see README.md)
+        `first_line_segment_epsilon` -- `eps` value for Proposition 3.1. \
+            If 0.0, then 1/(2N).
+
         `show_plots` -- If `True`, will show results in pop-up windows.
 
         `ineq_epsilon` -- Sets how much the inequalities for the proper \
@@ -359,6 +404,7 @@ def test_and_find_lines(
         `status` -- Status of the operation (`OK` or `ERROR: [...]`).
         `warnings` -- Any relevant warning or empty string.
         `lines` -- Resulting lines in a form: `[[x1, y1, x2, y2], ...]`.
+        `lines_ac` -- Resulting lines in a form: `[[a1, C1], [a2, C2], ...]`.
 
         `target_func_value` -- Target function value for test lines. Ideally \
             this value must be equal to zero or very close to zero.
@@ -374,6 +420,9 @@ def test_and_find_lines(
 
                   rotational_symmetry = rotational_symmetry,
                   mirrored = mirrored,
+
+                  fixed_first_line_segments = fixed_first_line_segments,
+                  first_line_segment_epsilon = first_line_segment_epsilon,
                   
                   do_tests = True,
                   show_plots = show_plots,
@@ -398,6 +447,9 @@ def find_lines(
 
         rotational_symmetry = 1,
         mirrored = False,
+
+        fixed_first_line_segments = False,
+        first_line_segment_epsilon = 0.0,
 
         show_plots = False,
 
@@ -426,6 +478,9 @@ def find_lines(
 
                   rotational_symmetry = rotational_symmetry,
                   mirrored = mirrored,
+
+                  fixed_first_line_segments = fixed_first_line_segments,
+                  first_line_segment_epsilon = first_line_segment_epsilon,
                   
                   do_tests = False,
                   show_plots = show_plots,
