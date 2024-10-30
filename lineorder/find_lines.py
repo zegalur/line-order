@@ -4,6 +4,8 @@ from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 
 from .utils import get_line_eq_coefficients
+from .utils import table_normal_form
+from .utils import group_by_parallel
 
 # Normalized Ax + By + C = 0 into `a`, where A=cos(a), B=sin(a)
 def get_line_angle(B): 
@@ -11,7 +13,7 @@ def get_line_angle(B):
 
 
 def solver(
-        input,
+        input_table,
         test_lines,
 
         rotational_symmetry,
@@ -22,6 +24,9 @@ def solver(
 
         do_tests,
         show_plots,
+
+        multiline_cross_points_epsilon,
+        multiline_cross_points_weight,
 
         ineq_epsilon,
         ineq_max,
@@ -44,6 +49,9 @@ def solver(
         'warnings' : '', 
         }
 
+    # Convert input table into a "normal form"
+    input = table_normal_form(input_table)
+
     # Rotational symmetry
     S = 1 if mirrored else rotational_symmetry
     S = 1 if fixed_first_line_segments else S
@@ -53,6 +61,14 @@ def solver(
 
     # Period
     P = 1 + (N // 2) if mirrored else N // S 
+
+    # Group lines by parallels
+    pgroups = group_by_parallel(input_table)
+    has_parallel = (len(pgroups) != N)
+    pmap = {} # Maps index into the smallest index of a parallel line.
+    for group in pgroups:
+        for line_index in group:
+            pmap[line_index - 1] = group[0] - 1
 
     # If first_line_segment_epsilon is zero,
     # automatically select appropriate value.
@@ -127,32 +143,44 @@ def solver(
         s *= -1.0 if cmp_func(row, l1, l2) else 1.0
         return s
 
+    # Calculates the value of F(row_index, l1_index, l2_index)
+    # for the test lines.
+    def calc_F_test(i, j, k):
+        s = get_s(i+1, j+1, k+1)
+        ai, ci = test_variables[i][0], test_variables[i][1]
+        aj, cj = test_variables[j][0], test_variables[j][1]
+        ak, ck = test_variables[k][0], test_variables[k][1]
+        F = 0.0
+        F += ci * np.sin(ak - aj)
+        F += cj * np.sin(ai - ak)
+        F += ck * np.sin(aj - ai)
+        return (F * s)
+
     # Checks if a given set of test lines satisfy a system of inequalities 
     # that specify the correct ordering of cross-points.
 
     if do_tests:
         for i in range(N):
             test_table += '\n'
-            for m in range(N-2):
-                j = input[i][m] - 1
-                k = input[i][m+1] - 1
-
-                # Calculate F(row, l1, l2)
-
-                s = get_s(i+1, j+1, k+1)
-
-                ai, ci = test_variables[i][0], test_variables[i][1]
-                aj, cj = test_variables[j][0], test_variables[j][1]
-                ak, ck = test_variables[k][0], test_variables[k][1]
-
-                F = 0.0
-                F += ci * np.sin(ak - aj)
-                F += cj * np.sin(ai - ak)
-                F += ck * np.sin(aj - ai)
-
+            for m in range(len(input[i]) - 1):
+                j = input[i][m][-1] - 1
+                k = input[i][m+1][0] - 1
                 # If a given three lines intersect each other in the correct 
                 # order, the F-values must be less than zero:
-                test_table += '1' if (F * s) < 0 else '0'
+                f_val = calc_F_test(i,j,k)
+                test_table += '1' if f_val < 0 else '0'
+            
+            # Test multiline cross-points.
+            for mlcp in input[i]:
+                if len(mlcp) < 2: continue
+                for m in range(len(mlcp) - 1):
+                    j = mlcp[m] - 1
+                    k = mlcp[m+1] - 1
+                    # If a given three lines intersect each other in the same 
+                    # point, the F-value must be close to zero:
+                    f_val = calc_F_test(i,j,k)
+                    close_to_zero = abs(f_val) < multiline_cross_points_epsilon
+                    test_table += '1' if close_to_zero else '0'
 
         if test_table.find('0') != -1:
             err_msg = "ERROR: Incorrect test table!"
@@ -173,12 +201,14 @@ def solver(
     seg_3 = [np.tan( i * np.pi / (N - 1)) for i in range(1,(N-1)//2)]
     segment_values = seg_1 + seg_2 + seg_3
     first_line_segments = [0.0]
-    for line_index in range(2,N+1):
-        first_line_segments.append(segment_values[input[0].index(line_index)])
+    if fixed_first_line_segments:
+        for line_index in range(2,N+1):
+            first_line_segments.append(
+                segment_values[input[0].index([line_index])])
 
     # For i-th line this return (ai*, Ci*) considering all symmetries.
     # i -> (ai, Ci)
-    def get_ac(x, i):
+    def get_ac_result(x, i):
         if fixed_first_line_segments:
             if i == 0:
                 return (0, 0)
@@ -203,6 +233,26 @@ def solver(
             a_delta = (i // P) * (np.pi / S)
             j = i % P
             return (x[2*j] - a_delta, C_sign * x[2*j + 1])
+    
+    def get_ac(x, i):
+        if has_parallel == False:
+            return get_ac_result(x, i)
+        (ap, Cp) = get_ac_result(x, pmap[i])
+        (a, C) = get_ac_result(x, i)
+        return (ap, C)
+        
+
+    # For a given state, calculates the value of F(i+1, j+1, k+1).
+    def calc_F(x, i, j, k):
+        s = get_s(i+1, j+1, k+1)
+        (ai, ci) = get_ac(x, i)
+        (aj, cj) = get_ac(x, j)
+        (ak, ck) = get_ac(x, k)
+        val = 0
+        val += ci * np.sin(ak - aj)
+        val += cj * np.sin(ai - ak)
+        val += ck * np.sin(aj - ai)
+        return val * s
 
     # A minimum of this target function is a possible solution.
     def target_fun(x):
@@ -212,26 +262,24 @@ def solver(
         # cross-points were violated.
 
         for i in range(P):
-            for m in range(N-2):
-                j = input[i][m] - 1
-                k = input[i][m+1] - 1
-                
-                # Calculate F(row, l1, l2)
-
-                s = get_s(i+1, j+1, k+1)
-                
-                (ai, ci) = get_ac(x, i)
-                (aj, cj) = get_ac(x, j)
-                (ak, ck) = get_ac(x, k)
-                
-                val = 0
-                val += ci * np.sin(ak - aj)
-                val += cj * np.sin(ai - ak)
-                val += ck * np.sin(aj - ai)
-
+            # Regular cross-points:
+            for m in range(len(input[i]) - 1):
+                j = input[i][m][-1] - 1
+                k = input[i][m+1][0] - 1
+                F_val = calc_F(x, i,j,k)
                 # -INEQ_MAX < F(row, l1, l2) < -INEQ_EPS < 0
-                res += (less_than( val * s, -INEQ_EPS)) * main_coefficient
-                res += (less_than(-val * s,  INEQ_MAX)) * main_coefficient
+                res += (less_than( F_val, -INEQ_EPS)) * main_coefficient
+                res += (less_than(-F_val,  INEQ_MAX)) * main_coefficient
+
+            # Multiline cross-points:
+            for mlcp in input[i]:
+                if len(mlcp) < 2: continue
+                for m in range(len(mlcp) - 1):
+                    j = mlcp[m] - 1
+                    k = mlcp[m+1] - 1
+                    F_val = calc_F(x, i,j,k)
+                    coef = multiline_cross_points_weight * main_coefficient
+                    res += (less_than(abs(F_val), 0.0)) * coef
 
         # Calculates how much the angle related inequalities were violated.
 
@@ -344,6 +392,9 @@ def test_and_find_lines(
 
         show_plots = False,
 
+        multiline_cross_points_epsilon = 1e-5,
+        multiline_cross_points_weight = 2.0,
+
         ineq_epsilon = 0.01,
         ineq_max = 1000.0,
 
@@ -427,6 +478,9 @@ def test_and_find_lines(
                   do_tests = True,
                   show_plots = show_plots,
 
+                  multiline_cross_points_epsilon=multiline_cross_points_epsilon,
+                  multiline_cross_points_weight=multiline_cross_points_weight,
+
                   ineq_epsilon = ineq_epsilon,
                   ineq_max = ineq_max,
 
@@ -452,6 +506,9 @@ def find_lines(
         first_line_segment_epsilon = 0.0,
 
         show_plots = False,
+
+        multiline_cross_points_epsilon = 1e-5,
+        multiline_cross_points_weight = 2.0,
 
         ineq_epsilon = 0.01,
         ineq_max = 1000.0,
@@ -484,6 +541,9 @@ def find_lines(
                   
                   do_tests = False,
                   show_plots = show_plots,
+
+                  multiline_cross_points_epsilon=multiline_cross_points_epsilon,
+                  multiline_cross_points_weight=multiline_cross_points_weight,
 
                   ineq_epsilon = ineq_epsilon,
                   ineq_max = ineq_max,
