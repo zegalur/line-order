@@ -10,7 +10,7 @@ Finally, this tool can find arrangements in the form of `y = mi(x-ai)`, where `a
 
 ## Showcases
 
-- [Gallery #1](https://zegalur.github.io/line-order/gallery/kobon.html) - Kobon triangle problem solution.
+- [Gallery #1](https://zegalur.github.io/line-order/gallery/kobon.html) - Kobon triangle problem solutions.
 - [Gallery #2](https://zegalur.github.io/line-order/gallery/special.html) - Special solutions, suitable for Proposition 3.1.
 - [Gallery #3](https://zegalur.github.io/line-order/gallery/other.html) - Other.
 
