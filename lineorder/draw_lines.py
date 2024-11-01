@@ -85,10 +85,19 @@ def draw_lines(
                 is_non_overlapping = True
                 for u in range(len(input)):
                     if u in [i,j,k]: continue
-                    s1 = np.sign(get_line_eq_value(c[u], v1))
-                    s2 = np.sign(get_line_eq_value(c[u], v2))
-                    s3 = np.sign(get_line_eq_value(c[u], v3))
+                    h1 = get_line_eq_value(c[u], v1)
+                    h2 = get_line_eq_value(c[u], v2)
+                    h3 = get_line_eq_value(c[u], v3)
+                    s1 = np.sign(h1)
+                    s2 = np.sign(h2)
+                    s3 = np.sign(h3)
                     if (s1 != s2) or (s1 != s3) or (s2 != s3):
+                        # Check maybe one of the points is at the line,
+                        # while two others are at the same side.
+                        if (abs(h1) < epsilon) and (s2 == s3): continue
+                        if (abs(h2) < epsilon) and (s1 == s3): continue
+                        if (abs(h3) < epsilon) and (s1 == s2): continue
+                        # Two points are at the different sides.
                         is_non_overlapping = False
                         break
 
@@ -98,6 +107,12 @@ def draw_lines(
                         np.array([v1[0], v1[1], v2[0], v2[1], v3[0], v3[1]]))
     
     if fit_to_circle:
+        if max_R == 0:
+            # No cross-points were found. 
+            # Fit all the line input points instead.
+            for l in input:
+                max_R = max(max_R, np.linalg.norm([l[0],l[1]]))
+                max_R = max(max_R, np.linalg.norm([l[2],l[3]]))
         scale_x /= max_R
         scale_y /= max_R
 

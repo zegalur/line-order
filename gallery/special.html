@@ -113,7 +113,7 @@ y = m<sub>i</sub>(x - a<sub>i</sub>), i = 0..8:<br><br>&epsilon; = 1 / 18 < 1 / 
 </table>
 
 <hr>
-<h2>11-Lines (32 Triangles)<br>(not suitable for Proposition 3.1)</h2>
+<h2>11-Lines (32 Triangles)<br>(based on solution by Honma)<br>(not suitable for Proposition 3.1)</h2>
 <table>
     <colgroup>
         <col span="1" style="width: 40%;">
@@ -131,7 +131,7 @@ y = m<sub>i</sub>(x - a<sub>i</sub>), i = 0..10:<br><br>&epsilon; = 1 / 22 < 1 /
 </table>
 
 <hr>
-<h2>Kobon 13-Lines<br>(47 Triangles, Mirror Symmetry)</h2>
+<h2>Kobon 13-Lines<br>(47 Triangles, Mirror Symmetry)<br>(based on solution by Kabanovitch)</h2>
 <table>
     <colgroup>
         <col span="1" style="width: 40%;">
@@ -144,6 +144,24 @@ y = m<sub>i</sub>(x - a<sub>i</sub>), i = 0..10:<br><br>&epsilon; = 1 / 22 < 1 /
 y = m<sub>i</sub>(x - a<sub>i</sub>), i = 0..12:<br><br>&epsilon; = 1 / 26 < 1 / 24<br><br>m<sub>0</sub> = 0, a<sub>0</sub> = 0<br>m<sub>1</sub> = -0.2885672, a<sub>1</sub> = tan(-5&#x1D70B;/12)<br>m<sub>2</sub> = -0.7122037, a<sub>2</sub> = tan(-1&#x1D70B;/12)<br>m<sub>3</sub> = -0.8749275, a<sub>3</sub> = tan(-3&#x1D70B;/12)<br>m<sub>4</sub> = -3.6695798, a<sub>4</sub> = tan(-2&#x1D70B;/12)<br>m<sub>5</sub> = -6.0309011, a<sub>5</sub> = tan(-4&#x1D70B;/12)<br>m<sub>6</sub> = -15.8847779, a<sub>6</sub> = &epsilon;<br>m<sub>7</sub> = 15.8847779, a<sub>7</sub> = -&epsilon;<br>m<sub>8</sub> = 6.0309011, a<sub>8</sub> = tan(4&#x1D70B;/12)<br>m<sub>9</sub> = 3.6695798, a<sub>9</sub> = tan(2&#x1D70B;/12)<br>m<sub>10</sub> = 0.8749275, a<sub>10</sub> = tan(3&#x1D70B;/12)<br>m<sub>11</sub> = 0.7122037, a<sub>11</sub> = tan(1&#x1D70B;/12)<br>m<sub>12</sub> = 0.2885672, a<sub>12</sub> = tan(5&#x1D70B;/12)<br><br><br>For wxMaxima:<br>0,<br>-0.2885672 * (x - tan(-5 * %pi / 12)),<br>-0.7122037 * (x - tan(-1 * %pi / 12)),<br>-0.8749275 * (x - tan(-3 * %pi / 12)),<br>-3.6695798 * (x - tan(-2 * %pi / 12)),<br>-6.0309011 * (x - tan(-4 * %pi / 12)),<br>-15.8847779 * (x + 1/26),<br>15.8847779 * (x - 1/26),<br>6.0309011 * (x - tan(4 * %pi / 12)),<br>3.6695798 * (x - tan(2 * %pi / 12)),<br>0.8749275 * (x - tan(3 * %pi / 12)),<br>0.7122037 * (x - tan(1 * %pi / 12)),<br>0.2885672 * (x - tan(5 * %pi / 12)),<br>
                 </pre></td>
             <td><img src="imgs/ibase_kobon_13.svg" /></td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+<h2>Kobon 17-Lines (85 Triangles)<br>(based on solution by Johannes Bader)</h2>
+<table>
+    <colgroup>
+        <col span="1" style="width: 40%;">
+        <col span="1" style="width: 60%;">
+    </colgroup>
+    <tbody>
+        <tr>
+            <td style='text-align:center;'><pre class='tab' 
+                style='font-size:10pt; text-align:left;'>
+y = m<sub>i</sub>(x - a<sub>i</sub>), i = 0..16:<br><br>&epsilon; = 1 / 34 < 1 / 32<br><br>m<sub>0</sub> = 0, a<sub>0</sub> = 0<br>m<sub>1</sub> = -0.31662, a<sub>1</sub> = tan(7&#x1D70B;/16)<br>m<sub>2</sub> = -0.4788163, a<sub>2</sub> = tan(-4&#x1D70B;/16)<br>m<sub>3</sub> = -0.8192463, a<sub>3</sub> = tan(3&#x1D70B;/16)<br>m<sub>4</sub> = -1.0064197, a<sub>4</sub> = tan(-6&#x1D70B;/16)<br>m<sub>5</sub> = -1.6773552, a<sub>5</sub> = tan(1&#x1D70B;/16)<br>m<sub>6</sub> = -2.3680147, a<sub>6</sub> = tan(-2&#x1D70B;/16)<br>m<sub>7</sub> = -5.3495275, a<sub>7</sub> = tan(5&#x1D70B;/16)<br>m<sub>8</sub> = 26.9677311, a<sub>8</sub> = -&epsilon;<br>m<sub>9</sub> = 5.4154817, a<sub>9</sub> = tan(2&#x1D70B;/16)<br>m<sub>10</sub> = 2.3804705, a<sub>10</sub> = tan(-5&#x1D70B;/16)<br>m<sub>11</sub> = 1.5253093, a<sub>11</sub> = &epsilon;<br>m<sub>12</sub> = 1.1349036, a<sub>12</sub> = tan(-3&#x1D70B;/16)<br>m<sub>13</sub> = 0.9288056, a<sub>13</sub> = tan(4&#x1D70B;/16)<br>m<sub>14</sub> = 0.4979408, a<sub>14</sub> = tan(-1&#x1D70B;/16)<br>m<sub>15</sub> = 0.2413881, a<sub>15</sub> = tan(6&#x1D70B;/16)<br>m<sub>16</sub> = 0.0926636, a<sub>16</sub> = tan(-7&#x1D70B;/16)<br><br><br>For wxMaxima:<br>0,<br>-0.31662 * (x - tan(7 * %pi / 16)),<br>-0.4788163 * (x - tan(-4 * %pi / 16)),<br>-0.8192463 * (x - tan(3 * %pi / 16)),<br>-1.0064197 * (x - tan(-6 * %pi / 16)),<br>-1.6773552 * (x - tan(1 * %pi / 16)),<br>-2.3680147 * (x - tan(-2 * %pi / 16)),<br>-5.3495275 * (x - tan(5 * %pi / 16)),<br>26.9677311 * (x - 1/34),<br>5.4154817 * (x - tan(2 * %pi / 16)),<br>2.3804705 * (x - tan(-5 * %pi / 16)),<br>1.5253093 * (x + 1/34),<br>1.1349036 * (x - tan(-3 * %pi / 16)),<br>0.9288056 * (x - tan(4 * %pi / 16)),<br>0.4979408 * (x - tan(-1 * %pi / 16)),<br>0.2413881 * (x - tan(6 * %pi / 16)),<br>0.0926636 * (x - tan(-7 * %pi / 16)),<br>
+                </pre></td>
+            <td><img src="imgs/ibase_kobon_17.svg" /></td>
         </tr>
     </tbody>
 </table>

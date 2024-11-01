@@ -1,4 +1,5 @@
 import numpy as np
+import copy
 
 
 def get_line_eq_coefficients(x1, y1, x2, y2):
@@ -61,6 +62,14 @@ def reindex_table(table_in, new_first_row):
     Returns the renumbered and reordered table. Returns `None` if the input was 
     incorrect.
     """
+    # Check if the input table has any multi-line intersection points.
+    for row in table_in:
+        for cross_point in row:
+            if type(cross_point) is list:
+                print("WARNING: reindex_table() doesn't support multiline " + 
+                      "cross-points. The original table was returned instead.")
+                return copy.deepcopy(table_in)
+
     N = len(table_in)
     if (new_first_row > N) or (new_first_row < 1):
         return None
@@ -76,6 +85,65 @@ def reindex_table(table_in, new_first_row):
     
     result = result[-(N - new_first_row + 1):] + result[:(new_first_row - 1)]
     return result
+
+
+def table_normal_form(table_in):
+    """Converts a table into a 'normal form' table, where every row is a list
+    of arrays, and multiline cross-points are not affected.
+    
+    E.g. `[[3,2], [3,1], [2,1]]` into `[[[3],[2]], [[3],[1]], [[2],[1]]]`."""
+    res = []
+    for row in table_in:
+        new_row = []
+        for item in row:
+            if isinstance(item, list):
+                new_row.append(item.copy())
+            else:
+                new_row.append([item])
+        res.append(new_row)
+    return res
+
+
+def group_by_parallel(table):
+    """For a given table this function returns an array of arrays 
+    `[g1,g2,..]`. If line `i` and line `j` are in the `ak`, they are parallel. 
+    If line `i` and line `j` are in different `am` and `an`, they are not 
+    parallel.
+    
+    Returns `"OK", [result]` for well formed tables.
+
+    Returns `"ERROR: ..", []` for incorrect tables."""
+    res = []
+    N = len(table)
+
+    # "Flatten" the table rows.
+    ntab = table_normal_form(table)
+    for i in range(N):
+        ntab[i] = sum(ntab[i], [])
+
+    # Create groups.
+    for i in range(1, N+1):
+        already_in_a_group = False
+        for g in res:
+            if i in g:
+                already_in_a_group = True
+                break
+        if already_in_a_group:
+            continue
+        group = [i]
+        for j in range(i+1, N+1):
+            if (j in ntab[i-1]) == False:
+                group.append(j)
+        res.append(group)
+    
+    # Check if all parallel lines are also consecutive.
+    for g in res:
+        for i in range(len(g)-1):
+            if g[i] != (g[i+1] - 1):
+                return ("ERROR: Incorrect table. " + 
+                        "Parallel lines should be consecutive lines."), []
+
+    return "OK", res
 
 
 gallery_html_header = """<!DOCTYPE html>
