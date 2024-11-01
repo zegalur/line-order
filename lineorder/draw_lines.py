@@ -107,6 +107,12 @@ def draw_lines(
                         np.array([v1[0], v1[1], v2[0], v2[1], v3[0], v3[1]]))
     
     if fit_to_circle:
+        if max_R == 0:
+            # No cross-points were found. 
+            # Fit all the line input points instead.
+            for l in input:
+                max_R = max(max_R, np.linalg.norm([l[0],l[1]]))
+                max_R = max(max_R, np.linalg.norm([l[2],l[3]]))
         scale_x /= max_R
         scale_y /= max_R
 

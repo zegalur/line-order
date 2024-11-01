@@ -102,7 +102,8 @@ entries = {
         [10,8,9,1,6,4,7,2,5,3],
     ],
     'first_row' : 3,
-    'title' : "11-Lines (32 Triangles)<br>(not suitable for Proposition 3.1)",
+    'title' : "11-Lines (32 Triangles)\n(based on solution by Honma)\n" + 
+              "(not suitable for Proposition 3.1)",
     'font_size' : "10pt",
     'eps_denominator' : 2 * 11,
     'eps_eq' : 1e-8,
@@ -133,7 +134,8 @@ entries = {
         [12,6,11,5,8,2,7,4,10,3,9,1],
     ],
     'first_row' : 1,
-    'title' : "Kobon 13-Lines<br>(47 Triangles, Mirror Symmetry)",
+    'title' : "Kobon 13-Lines\n(47 Triangles, Mirror Symmetry)\n" + 
+              "(based on solution by Kabanovitch)",
     'font_size' : "10pt",
     'eps_denominator' : 2 * 13,
     'eps_eq' : 1e-8,
@@ -145,6 +147,41 @@ entries = {
         'size_px' : 400.0,
         'scale_x' : 3.0,
         'title_text' : '(X scaled by 1/3)'
+    },
+},
+
+################################################################################
+
+'ibase_kobon_17' : {
+    'table' : [
+        [2,6,4,12,5,8,3,10,7,14,11,13,9,16,15,17],
+        [1,6,12,4,14,8,16,10,13,5,11,7,17,9,15,3],
+        [4,6,5,12,8,1,10,14,7,13,11,16,9,17,15,2],
+        [3,6,1,12,2,14,16,8,13,10,17,11,15,7,9,5],
+        [6,3,12,1,8,14,10,16,13,2,11,17,7,15,9,4],
+        [5,3,4,1,2,12,16,14,17,13,15,10,11,8,9,7],
+        [8,12,10,1,14,3,13,16,11,2,17,5,15,4,9,6],
+        [7,12,3,1,5,14,2,16,4,13,17,10,15,11,6,9],
+        [10,12,11,14,13,1,16,3,17,2,15,5,4,7,6,8],
+        [9,12,7,1,3,14,5,16,2,13,4,17,8,15,6,11],
+        [12,9,14,1,13,3,16,7,2,5,17,4,15,8,6,10],
+        [11,9,10,7,8,3,5,1,4,2,6,16,17,14,15,13],
+        [14,9,1,11,3,7,16,5,2,10,4,8,17,6,15,12],
+        [13,9,11,1,7,3,10,5,8,2,4,16,6,17,12,15],
+        [16,1,17,3,2,9,5,7,4,11,8,10,6,13,12,14],
+        [15,1,9,3,11,7,13,5,10,2,8,4,14,6,12,17],
+        [1,15,3,9,2,7,5,11,4,10,8,13,6,14,12,16],
+    ],
+    'first_row' : 5,
+    'title' : "Kobon 17-Lines (85 Triangles)\n" + 
+              "(based on solution by Johannes Bader)",
+    'font_size' : "10pt",
+    'eps_denominator' : 2 * 17,
+    'eps_eq' : 1e-8,
+    'round_values_to' : 7,
+    'find_lines_args' : {
+    },
+    'draw_lines_args' : {
     },
 },
 
@@ -256,7 +293,7 @@ for key, entry in entries.items():
         with open("gallery/" + svg_filename, "w") as text_file:
             text_file.write(result_svg['svg'])
             entry_html = entry_template.format(
-                entry_title=entry['title'], 
+                entry_title=entry['title'].replace("\n","<br>"), 
                 f_size=entry['font_size'],
                 data=data, 
                 lines_svg_fname=svg_filename)
@@ -265,5 +302,5 @@ for key, entry in entries.items():
 
 # Create gallery HTML file
 gallery_html += "\n<hr>\n\n</body>\n"
-with open("gallery/index_2.html", "w") as text_file:
+with open("gallery/special.html", "w") as text_file:
     text_file.write(gallery_html)

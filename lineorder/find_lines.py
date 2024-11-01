@@ -62,13 +62,36 @@ def solver(
     # Period
     P = 1 + (N // 2) if mirrored else N // S 
 
-    # Group lines by parallels
-    pgroups = group_by_parallel(input_table)
-    has_parallel = (len(pgroups) != N)
+    # Get the groups of parallel lines
+    result['status'], pgroups = group_by_parallel(input_table)
+    if result['status'] != 'OK':
+        return result
     pmap = {} # Maps index into the smallest index of a parallel line.
     for group in pgroups:
         for line_index in group:
             pmap[line_index - 1] = group[0] - 1
+    
+    # Other mirroring related variables:
+    first_line_group = pgroups[0] # group of lines parallel to the first line
+    center_line_group = [] # group with lines perpendicular to the first line
+    N1 = len(first_line_group)
+
+    if mirrored:
+        # Find the indices of two lines perpendicular to the first line
+        # that are on opposite sides of the period (inclusive).
+        center_line_1 = N1 + (1 + N - N1) // 2
+        center_line_2 = center_line_1
+        if (N - N1) % 2 == 0:
+            center_line_2 += 1
+
+        # Find the group of parallel lines with the center_line_1 
+        # and the center_line_2 in it. 
+        for pgroup in pgroups:
+            if pgroup == first_line_group:
+                continue
+            if (center_line_1 in pgroup) and (center_line_2 in pgroup):
+                center_line_group = pgroup
+                break
 
     # If first_line_segment_epsilon is zero,
     # automatically select appropriate value.
@@ -208,39 +231,39 @@ def solver(
 
     # For i-th line this return (ai*, Ci*) considering all symmetries.
     # i -> (ai, Ci)
-    def get_ac_result(x, i):
+    def get_ac(x, i):
         if fixed_first_line_segments:
             if i == 0:
                 return (0, 0)
             ai = 0.0
             if mirrored:
-                j = i if i < P else (N - i)
-                a0, aj = 0, x[2*j]
+                j = i if i < P else (N - i + (N1-1))
+                jp = pmap[j]
+                a0, aj = 0, x[2*jp]
                 ai = aj if i < P else (2 * a0 - aj - np.pi)
+                if (i+1) in center_line_group:
+                    ai = a0 - np.pi / 2
             else:
-                ai = x[2*i]
+                ip = pmap[i]
+                ai = x[2*ip]
             Ci = -first_line_segments[i] * np.sin(ai)
-            # TODO: mirrored support
             return (ai, Ci)
         if mirrored:
-            j = i if i < P else (N - i)
-            a0, aj, cj = x[0], x[2*j], x[2*j + 1]
+            j = i if i < P else (N - i + (N1-1))
+            jp = pmap[j]
+            a0, aj, cj = x[0], x[2*jp], x[2*j + 1]
             a = aj if i < P else (2 * a0 - aj - np.pi)
             c = cj if i < P else -cj
+            if (i+1) in center_line_group:
+                a = a0 - np.pi / 2
             return (a, c)
         else:
             C_sign = 1.0 if (i // P) % 2 == 0 else -1.0
+            #C_sign  = 1.0 if (P % 2 == 0) or ((i // P) % 2 == 0) else -1.0
             a_delta = (i // P) * (np.pi / S)
             j = i % P
-            return (x[2*j] - a_delta, C_sign * x[2*j + 1])
-    
-    def get_ac(x, i):
-        if has_parallel == False:
-            return get_ac_result(x, i)
-        (ap, Cp) = get_ac_result(x, pmap[i])
-        (a, C) = get_ac_result(x, i)
-        return (ap, C)
-        
+            jp = pmap[j]
+            return (x[2*jp] - a_delta, C_sign * x[2*j + 1])        
 
     # For a given state, calculates the value of F(i+1, j+1, k+1).
     def calc_F(x, i, j, k):
@@ -430,6 +453,12 @@ def test_and_find_lines(
 
         `show_plots` -- If `True`, will show results in pop-up windows.
 
+        `multiline_cross_points_epsilon` -- Sets the allowable difference from \
+            zero for equalities at multi-line intersection points, primarily \
+                used for the test lines.
+        `multiline_cross_points_weight` -- Sets the weight for the equalities \
+            at multi-line intersection points (default 2.0).
+        
         `ineq_epsilon` -- Sets how much the inequalities for the proper \
             ordering of lines must be less than 0 (this sets the tolerance on \
             how close a two consecutive cross-points on the same line can be).

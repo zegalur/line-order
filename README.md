@@ -8,8 +8,11 @@ Additionally, for a given arrangement of pseudolines, it can generate a beautifu
 
 Finally, this tool can find arrangements in the form of `y = mi(x-ai)`, where `ai` are either very small values or `tan((+/-)i*pi/(N-1))` (see. [Gallery #2](https://zegalur.github.io/line-order/gallery/index_2.html) for some examples). These are special kinds of arrangements that are suitable for Proposition 3.1. from [this paper](https://www.researchgate.net/publication/1893173_On_simple_arrangements_of_lines_and_pseudo-lines_in_P2_and_R2_with_the_maximum_number_of_triangles).
 
-[Gallery #1](https://zegalur.github.io/line-order/gallery/index.html)<br>
-[Gallery #2](https://zegalur.github.io/line-order/gallery/index_2.html)
+## Showcases
+
+- [Gallery #1](https://zegalur.github.io/line-order/gallery/kobon.html) - Kobon triangle problem solution.
+- [Gallery #2](https://zegalur.github.io/line-order/gallery/special.html) - Special solutions, suitable for Proposition 3.1.
+- [Gallery #3](https://zegalur.github.io/line-order/gallery/other.html) - Other.
 
 ## How To Use
 
@@ -84,6 +87,10 @@ This is how a table for a pentagram can look like:
 
 ![banner](docs/imgs/scheme.png)
 
+For intersections with more than two lines, list all the lines that intersect with the current line and intersection point in the same order, starting from the current line.
+
+For more examples, please visit the galleries above.
+
 ## How it Works
 
 It is a surprisingly simple approach. It's not clear why it works so well for many complex cases. Below is a brief overview of the method. See the code for `solver` for more details.
@@ -105,6 +112,8 @@ F(i,j,k) =
     C_j \cdot \sin(a_i - a_k) + 
     C_k \cdot \sin(a_j - a_i)
 ```
+
+At a multi-line intersection point, where three or more lines intersect at the same point, the inequalities above become equalities between the lines involved in this intersection.
 
 `S(i,j,k)` is a special "sign-correction" function:
 

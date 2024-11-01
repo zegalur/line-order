@@ -1,4 +1,5 @@
 import numpy as np
+import copy
 
 
 def get_line_eq_coefficients(x1, y1, x2, y2):
@@ -61,6 +62,14 @@ def reindex_table(table_in, new_first_row):
     Returns the renumbered and reordered table. Returns `None` if the input was 
     incorrect.
     """
+    # Check if the input table has any multi-line intersection points.
+    for row in table_in:
+        for cross_point in row:
+            if type(cross_point) is list:
+                print("WARNING: reindex_table() doesn't support multiline " + 
+                      "cross-points. The original table was returned instead.")
+                return copy.deepcopy(table_in)
+
     N = len(table_in)
     if (new_first_row > N) or (new_first_row < 1):
         return None
@@ -99,7 +108,11 @@ def group_by_parallel(table):
     """For a given table this function returns an array of arrays 
     `[g1,g2,..]`. If line `i` and line `j` are in the `ak`, they are parallel. 
     If line `i` and line `j` are in different `am` and `an`, they are not 
-    parallel. Returns `[]` if table is incorrect."""
+    parallel.
+    
+    Returns `"OK", [result]` for well formed tables.
+
+    Returns `"ERROR: ..", []` for incorrect tables."""
     res = []
     N = len(table)
 
@@ -123,7 +136,14 @@ def group_by_parallel(table):
                 group.append(j)
         res.append(group)
     
-    return res
+    # Check if all parallel lines are also consecutive.
+    for g in res:
+        for i in range(len(g)-1):
+            if g[i] != (g[i+1] - 1):
+                return ("ERROR: Incorrect table. " + 
+                        "Parallel lines should be consecutive lines."), []
+
+    return "OK", res
 
 
 gallery_html_header = """<!DOCTYPE html>

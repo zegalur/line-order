@@ -4,7 +4,7 @@ import numpy as np
 import copy
 
 from .utils import get_line_eq_coefficients, get_intersection_point, svg_header
-
+from .utils import table_normal_form, group_by_parallel
 
 def draw_pseudolines(
         table, 
@@ -33,16 +33,32 @@ def draw_pseudolines(
             from the outside towards the center of the circle.
     """
 
-    input = copy.deepcopy(table)
+    input = table_normal_form(table)
+
+    # Check if this table has a multi-line cross-points.
+    for row in input:
+        for cross_point in row:
+            if len(cross_point) != 1:
+                return {"status" : 
+                        "ERROR: Multi-line cross-points are not supported yet."}
 
     # N is the number of pseudolines in the arrangement.
     N = len(input)
 
+    # Get the groups of parallel lines.
+    pg_status, pgroups = group_by_parallel(input)
+    if pg_status != 'OK':
+        return {"status" : pg_status}
+
     # The initial order of lines. Positive numbers are for lines that goes
     # into the circle, negative is for lines that goes out from the circle.
-    # Because each line intersects each other line, the initial order will be:
+    # E.g. if each line intersects each other line, the initial order will be:
     # [ 1,2,...,N, -1,-2,...,-N ]
-    order = list(range(1, N+1)) + list(range(-1, -(N+1), -1))
+    order_1, order_2 = [], []
+    for pgroup in pgroups:
+        order_1 += pgroup
+        order_2 += list(reversed(pgroup))
+    order = order_1 + list(map(lambda x:-x, order_2))
 
     # A table with rows showing how order changes from the outside towards 
     # the center of the circle.
@@ -105,7 +121,7 @@ def draw_pseudolines(
             m = 0 if a > 0 else len(input[u]) - 1
             n = 0 if b > 0 else len(input[v]) - 1
             x, y = input[u][m], input[v][n]
-            if (u == y - 1) and (v == x - 1):
+            if ((u + 1) in y) and ((v + 1) in x):
                 # This two lines should be flipped.
                 flipped.append(a)
                 flipped.append(b)
