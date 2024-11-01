@@ -6,7 +6,7 @@ This small tool can help with finding an arrangement of straight lines that corr
 
 Additionally, for a given arrangement of pseudolines, it can generate a beautiful SVG file with a circular visual representation of the arrangement. For a given set of straight lines, it can generate a visual representation of these arrangements, showing all the non-overlapping triangles.
 
-Finally, this tool can find arrangements in the form of `y = mi(x-ai)`, where `ai` are either very small values or `tan((+/-)i*pi/(N-1))` (see. [Gallery #2](https://zegalur.github.io/line-order/gallery/index_2.html) for some examples). These are special kinds of arrangements that are suitable for Proposition 3.1. from [this paper](https://www.researchgate.net/publication/1893173_On_simple_arrangements_of_lines_and_pseudo-lines_in_P2_and_R2_with_the_maximum_number_of_triangles).
+Finally, this tool can find arrangements in the form of `y = mi(x-ai)`, where `ai` are either very small values or `tan((+/-)i*pi/(N-1))` (see. [Gallery #2](https://zegalur.github.io/line-order/gallery/special.html) for some examples). These are special kinds of arrangements that are suitable for Proposition 3.1. from [this paper](https://www.researchgate.net/publication/1893173_On_simple_arrangements_of_lines_and_pseudo-lines_in_P2_and_R2_with_the_maximum_number_of_triangles).
 
 ## Showcases
 
@@ -75,7 +75,7 @@ if result_svg['status'] == 'OK':
     ...
 ```
 
-This will give you the results shown in the title image above. For more examples, see [Gallery](https://zegalur.github.io/line-order/gallery/).
+This will give you the results shown in the title image above. For more examples, see [Gallery](https://zegalur.github.io/line-order/gallery/kobon.html).
 
 ## Table Representation
 
