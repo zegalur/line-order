@@ -4,7 +4,7 @@ All significant modifications to this project will be recorded in this file. The
 
 ## [Unreleased]
 
-## [1.1.0] - 2024-11-01
+## [1.2.0] - 2024-11-01
 
 - Parallel lines support
 - Support of multi-line cross-points for `find_lines()` and `draw_lines()`
