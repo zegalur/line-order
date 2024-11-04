@@ -173,7 +173,9 @@ Written in Python 3.8 and uses `SciPy`, `NumPy` and `Matplotlib` libraries.
 
 * [Arrangement of lines (Wikipedia)](https://en.wikipedia.org/wiki/Arrangement_of_lines)
 * [Kobon triangle problem (Wikipedia)](https://en.wikipedia.org/wiki/Kobon_triangle_problem)
-* Bartholdi, Nicolas & Blanc, Jérémy & Loisel, Sébastien. *On simple arrangements of lines and pseudo-lines in P^2 and R^2 with the maximum number of triangles.* 2007. [(link)](https://www.researchgate.net/publication/1893173_On_simple_arrangements_of_lines_and_pseudo-lines_in_P2_and_R2_with_the_maximum_number_of_triangles) 
+* Bartholdi, Nicolas & Blanc, Jérémy & Loisel, Sébastien. *On simple arrangements of lines and pseudo-lines in P^2 and R^2 with the maximum number of triangles.* 2007. [(link)](https://www.researchgate.net/publication/1893173_On_simple_arrangements_of_lines_and_pseudo-lines_in_P2_and_R2_with_the_maximum_number_of_triangles)
+* Weisstein, Eric W. "Kobon Triangle." From [MathWorld](https://mathworld.wolfram.com/)--A Wolfram Web Resource. https://mathworld.wolfram.com/KobonTriangle.html 
+* Johannes Bader, ["Kobon Triangles"](https://web.archive.org/web/20160303180311/http://www.tik.ee.ethz.ch/sop/people/baderj/?page=other.php)
 
 ## License
 
