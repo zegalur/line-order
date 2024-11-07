@@ -22,5 +22,5 @@ LineOrder TODO list.
 - [x] Fix: `sqrt` value error in `draw_lines.py` when the line is outside the circle.
 - [x] Fix: `linalg` error in `get_intersection_point()` when lines are parallel.
 - [x] Add: find arrangements with `y = mi(x - ai), ai=tan(..)` conditions.
-
+- [x] Add: generate pseudo-line arrangements using a process similar to Proposition 3.1.
 
