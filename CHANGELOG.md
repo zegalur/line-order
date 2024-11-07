@@ -4,7 +4,16 @@ All significant modifications to this project will be recorded in this file. The
 
 ## [Unreleased]
 
+## [1.3.0] - 2024-11-07
+
+### Added
+
+- Generate bigger maximal arrangements from the existing one using `gen_2nm1` and `gen_2nm1_repeat`
+- Optimal arrangements for `n=29` and `n=33` in the [Kobon Gallery](https://zegalur.github.io/line-order/gallery/kobon.html)
+
 ## [1.2.0] - 2024-11-01
+
+### Added
 
 - Parallel lines support
 - Support of multi-line cross-points for `find_lines()` and `draw_lines()`
