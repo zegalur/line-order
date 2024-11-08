@@ -181,4 +181,3 @@ Written in Python 3.8 and uses `SciPy`, `NumPy` and `Matplotlib` libraries.
 
 This work is licensed under CC BY 4.0<br>
 *Pavlo Savchuk 2024*
-
