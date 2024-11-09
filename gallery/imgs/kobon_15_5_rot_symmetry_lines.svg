@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with LineOrder (https://github.com/zegalur/line-order) -->
 
 <svg
     width="600.0px"
@@ -11,16 +12,18 @@
     xmlns:svg="http://www.w3.org/2000/svg">
 
     <style>
-		circle { stroke:black;stroke-width:0.5;fill:none;stroke-dasharray:5,5; }		line { stroke:black;stroke-width:0.5;vector-effect:non-scaling-stroke; }		path { fill:#00000055; }
+		circle { stroke:black;stroke-width:0.5;fill:none;stroke-dasharray:5,5; }
+		line { stroke:black;stroke-width:0.5;vector-effect:non-scaling-stroke; }
+		path { fill:#00000055; }
     </style>
 
     <rect width="100%" height="100%" fill="white"/>
     
     
-    <text x='20' y='30'>(15 lines, 65 triangles, 65 upper bound)</text>
-    <text x='20' y='45'>by Toshitaka Suzuki</text>
+        <text x='20' y='30'>(15 lines, 65 triangles, 65 upper bound)</text>
+        <text x='20' y='45'>by Toshitaka Suzuki</text>
 
-    
+        
 <path d='M 32.657984947042905 244.70762270055337 L 129.8275606542105 244.70762270055337 L 195.58250675284953 292.48138746791483' />
 <path d='M 153.01065391471698 244.70762270055337 L 129.8275606542105 244.70762270055337 L 100.5920907670783 223.46681050133176' />
 <path d='M 153.01065391471698 244.70762270055337 L 259.8277364174338 244.7076227005534 L 247.40017727926264 282.95571686737486' />

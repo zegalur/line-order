@@ -5,9 +5,9 @@ LineOrder TODO list.
 ### Todo
 
 - [ ] Add: check input data for consistency (e.g., if N % S == 0).
-- [ ] Add: n=19 arrangements to the gallery.
-- [ ] Add: n=20 arrangements to the gallery.
 - [ ] Fix: incorrect solutions for arrangements with parallel lines and rotational symmetry (e.g. incorrect 3-rotational symmetry solution for kobon-18)
+- [ ] Add: documentation for all `draw_lines()` parameters. 
+- [ ] Add: non-optimal 5-rot symmetrical n=20 arrangements to the gallery.
 
 ### In Progress
 
@@ -23,4 +23,6 @@ LineOrder TODO list.
 - [x] Fix: `linalg` error in `get_intersection_point()` when lines are parallel.
 - [x] Add: find arrangements with `y = mi(x - ai), ai=tan(..)` conditions.
 - [x] Add: generate pseudo-line arrangements using a process similar to Proposition 3.1.
+- [x] Add: n=19 arrangements to the gallery.
+- [x] Add: n=20 arrangements to the gallery.
 

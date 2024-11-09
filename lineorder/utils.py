@@ -31,6 +31,7 @@ def get_line_eq_value(line, point):
     return line[0] * point[0] + line[1] * point[1] + line[2]
 
 svg_header = '''<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with LineOrder (https://github.com/zegalur/line-order) -->
 
 <svg
     width="{width_px}px"

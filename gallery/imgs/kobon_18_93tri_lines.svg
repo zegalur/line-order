@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with LineOrder (https://github.com/zegalur/line-order) -->
 
 <svg
     width="800.0px"
@@ -11,16 +12,18 @@
     xmlns:svg="http://www.w3.org/2000/svg">
 
     <style>
-		circle { stroke:black;stroke-width:0.5;fill:none;stroke-dasharray:5,5; }		line { stroke:black;stroke-width:0.5;vector-effect:non-scaling-stroke; }		path { fill:#00000055; }
+		circle { stroke:black;stroke-width:0.5;fill:none;stroke-dasharray:5,5; }
+		line { stroke:black;stroke-width:0.5;vector-effect:non-scaling-stroke; }
+		path { fill:#00000055; }
     </style>
 
     <rect width="100%" height="100%" fill="white"/>
     
     
-    <text x='20' y='30'>(18 lines, 93 triangles, 95 upper bound)</text>
-    <text x='20' y='45'>by Johannes Bader</text>
+        <text x='20' y='30'>(18 lines, 93 triangles, 95 upper bound)</text>
+        <text x='20' y='45'>by Johannes Bader</text>
 
-    
+        
 <path d='M 140.23520701167558 365.8349937722773 L 344.84691855122753 365.8349937722773 L 361.36746461761976 395.9019047785305' />
 <path d='M 361.62590779644285 365.8349937722773 L 344.84691855122753 365.8349937722773 L 335.8585466568697 349.47641962147844' />
 <path d='M 361.62590779644285 365.8349937722773 L 371.7164855520583 365.8349937722773 L 370.8559270408388 371.6947305689515' />

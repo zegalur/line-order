@@ -17,6 +17,7 @@ def draw_lines(
         fit_to_circle = True,
         scale_x = 0.91,
         scale_y = 0.91,
+        show_upper_bound = True,
         ):
     """For a given set of straight lines this function will generate
     visual representation SVG file, with all lines and all non-overlapping
@@ -44,9 +45,9 @@ def draw_lines(
 
     style = ""
     style += "\t\tcircle { stroke:black;stroke-width:" + str(line_width_px)
-    style += ";fill:none;stroke-dasharray:5,5; }"
+    style += ";fill:none;stroke-dasharray:5,5; }\n"
     style += "\t\tline { stroke:black;stroke-width:" + str(line_width_px)
-    style += ";vector-effect:non-scaling-stroke; }"
+    style += ";vector-effect:non-scaling-stroke; }\n"
     style += "\t\tpath { fill:#00000055; }"
 
     svg = svg_header.format(style=style, width_px=size_px, height_px=size_px)
@@ -125,10 +126,16 @@ def draw_lines(
     if k % 6 in [1,4]: upper_bound = (k*k - 2*k - 2) // 3
 
     # Add the info text to the SVG.
-    svg += '''
-    <text x='20' y='30'>({} lines, {} triangles, {} upper bound)</text>
-    <text x='20' y='45'>{}</text>\n
-    '''.format(len(input), count, upper_bound, title_text)
+    if show_upper_bound:
+        svg += '''
+        <text x='20' y='30'>({} lines, {} triangles, {} upper bound)</text>
+        <text x='20' y='45'>{}</text>\n
+        '''.format(len(input), count, upper_bound, title_text)
+    else:
+        svg += '''
+        <text x='20' y='30'>({} lines, {} triangles)</text>
+        <text x='20' y='45'>{}</text>\n
+        '''.format(len(input), count, title_text)
 
     # Calculate the rotation matrix for aligning first line with Ox.
     n0 = [c[0][0], c[0][1]]
