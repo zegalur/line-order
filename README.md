@@ -59,8 +59,8 @@ if pseudolines_svg['status'] == 'OK':
 Finding a set of straight lines for a given table (*straightening* the arrangement):
 
 ```python
-straightened_arrangement = lineorder.test_and_find_lines(
-    input_21, test_lines, rotational_symmetry=3)
+straightened_arrangement = lineorder.find_lines(
+    input_21, rotational_symmetry=3)
 if straightened_arrangement['status'] == 'OK':
     result_lines = straightened_arrangement['lines']
     ...
