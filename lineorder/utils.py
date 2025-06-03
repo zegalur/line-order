@@ -88,6 +88,57 @@ def reindex_table(table_in, new_first_row):
     return result
 
 
+def reverse_order(tab):
+    """Reverses the order of lines from 1,2,3,..n to 1,n,n-1,..,2.
+
+    Arguments:
+        `tab` -- a well formed table for `N` lines.
+
+    Returns the reversed table.
+    """
+    # Check if the input table has any multi-line intersection points.
+    for row in tab:
+        for cross_point in row:
+            if type(cross_point) is list:
+                print("WARNING: reverse_order() doesn't support multiline " + 
+                      "cross-points. The original table was returned instead.")
+                return copy.deepcopy(tab)
+
+    indx = lambda l: 1 if l==1 else (len(tab)-l+2)
+    return [ 
+            [ indx(l) for l in (tab[0] if r == 0 else tab[indx(r+1)-1][::-1]) ] 
+        for r in range(len(tab)) ]
+
+
+def add_1_2_line(tab, cross_12 = False):
+    """Adds a line between 1 and 2 to an odd table that makes it 
+    almost ideal even configuration.
+
+    Arguments:
+        `tab` -- a well formed table for `N` lines.
+        `cross_12` -- if `True`, crosses the first and the newly added second line.
+                      If `False`, fist and second lines will be parallel.
+    
+    Returns a newly created `N+1` table.
+    """
+    # Check if the input table has any multi-line intersection points.
+    for row in tab:
+        for cross_point in row:
+            if type(cross_point) is list:
+                print("WARNING: add_1_2_line() doesn't support multiline " + 
+                      "cross-points. The original table was returned instead.")
+                return copy.deepcopy(tab)
+
+    indx = lambda l: 1 if l==1 else (l+1)
+    t1 = [ [indx(l) for l in r] for r in tab ]
+    for r in range(1, len(tab)):
+        t1[r] = [2] + t1[r]
+    if cross_12:
+        t1[0] = t1[0] + [2]
+    t1.insert(1, list(range(3,len(tab)+2)) + ([1] if cross_12 else []))
+    return t1
+
+
 def table_normal_form(table_in):
     """Converts a table into a 'normal form' table, where every row is a list
     of arrays, and multiline cross-points are not affected.
