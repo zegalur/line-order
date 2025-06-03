@@ -897,7 +897,9 @@ kobon = {
     },
     'draw_lines_args' : {
         'title_text' : 'by Pavlo Savchuk (2025)',
-        'size_px' : 8000.0,
+        'size_px' : 5000.0,
+        'scale_x' : 4.0,
+        'scale_y' : 6.0,
     },
 },
 
