@@ -2,19 +2,16 @@
 <!-- Created with LineOrder (https://github.com/zegalur/line-order) -->
 
 <svg
-    width="500.0px"
-    height="500.0px"
-    viewBox="0px 0px 500.0px 500.0px"
+    width="500px"
+    height="500px"
+    viewBox="0 0 500 500"
     version="1.1"
-    id="svg1=-body"
-    xml:space="preserve"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:svg="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg">
 
     <style>
 		circle { stroke:black;stroke-width:0.5;fill:none;stroke-dasharray:5,5; }
 		line { stroke:black;stroke-width:0.5;vector-effect:non-scaling-stroke; }
-		path { fill:#00000055; }
+		path { fill: #000000; fill-opacity: 0.33; }
     </style>
 
     <rect width="100%" height="100%" fill="white"/>
@@ -93,6 +90,6 @@
 <line x1='465.11969629904297' y1='122.62843227702855' x2='38.79393292600048' y2='383.76097050759324' />
 <line x1='493.6563376561068' y1='194.03939671507044' x2='4.3568050105743055' y2='296.4695680568151' />
 
-<circle cx='250.0px' cy='250.0px' r='250.0px' />
+<circle cx='250' cy='250' r='250' />
 
 </svg>

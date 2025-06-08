@@ -36,12 +36,9 @@ svg_header = '''<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
     width="{width_px}px"
     height="{height_px}px"
-    viewBox="0px 0px {width_px}px {height_px}px"
+    viewBox="0 0 {width_px} {height_px}"
     version="1.1"
-    id="svg1=-body"
-    xml:space="preserve"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:svg="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg">
 
     <style>
 {style}

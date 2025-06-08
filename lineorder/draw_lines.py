@@ -48,9 +48,13 @@ def draw_lines(
     style += ";fill:none;stroke-dasharray:5,5; }\n"
     style += "\t\tline { stroke:black;stroke-width:" + str(line_width_px)
     style += ";vector-effect:non-scaling-stroke; }\n"
-    style += "\t\tpath { fill:#00000055; }"
+    style += "\t\tpath { fill: #000000; fill-opacity: 0.33; }"
 
-    svg = svg_header.format(style=style, width_px=size_px, height_px=size_px)
+    svg = svg_header.format(
+            style=style, 
+            width_px=int(size_px), 
+            height_px=int(size_px),
+            )
 
     # This will be the maximum distance from the (0,0) to a cross-point.
     max_R = 0
@@ -190,7 +194,7 @@ def draw_lines(
         svg += "<line x1='{}' y1='{}' x2='{}' y2='{}' />\n".format(
             r1[0], r1[1], r2[0], r2[1])
 
-    svg += "\n<circle cx='{r}px' cy='{r}px' r='{r}px' />".format(r=size_px/2)
+    svg += "\n<circle cx='{r}' cy='{r}' r='{r}' />".format(r=int(size_px/2))
     svg += "\n\n</svg>"
 
     res = {
