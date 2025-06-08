@@ -604,7 +604,7 @@ kobon = {
 ################################################################################
 
 'kobon_19_107tri' : {
-    'entry_title' : '19-Line Solution (93 Triangles) by Kyle Wood',
+    'entry_title' : '19-Line Solution (107 Triangles) by Kyle Wood',
     'entry_table' : [
         [18,19,12,16,14,17,13,15,10,11,6,8,4,7,5,9,2,3],
         [18,6,12,4,14,5,13,10,19,11,16,8,17,7,15,9,1,3],
