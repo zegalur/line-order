@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+import math
 
 from .utils import get_line_eq_coefficients
 from .utils import get_intersection_point
@@ -128,6 +129,9 @@ def draw_lines(
     if k % 6 in [3,5]: upper_bound = k * (k - 2) // 3
     if k % 6 in [0,2]: upper_bound = (k + 1) * (k - 3) // 3
     if k % 6 in [1,4]: upper_bound = (k*k - 2*k - 2) // 3
+    if k % 2 == 0:
+        # Improved upper bound for even k:
+        upper_bound = math.floor(k * (k - 7/3) / 3)
 
     # Add the info text to the SVG.
     if show_upper_bound:

@@ -17,7 +17,7 @@
     <rect width="100%" height="100%" fill="white"/>
     
     
-        <text x='20' y='30'>(16 lines, 72 triangles, 74 upper bound)</text>
+        <text x='20' y='30'>(16 lines, 72 triangles, 72 upper bound)</text>
         <text x='20' y='45'>by Johannes Bader (based on 15-line solution by Toshitaka Suzuki)</text>
 
         
