@@ -180,4 +180,4 @@ Written in Python 3.8 and uses `SciPy`, `NumPy` and `Matplotlib` libraries.
 ## License
 
 This work is licensed under CC BY 4.0<br>
-*Pavlo Savchuk 2024*
+*Pavlo Savchuk 2024-2025*

@@ -4,6 +4,14 @@ All significant modifications to this project will be recorded in this file. The
 
 ## [Unreleased]
 
+## [1.4.0] - 2025-06-18
+
+### Added
+
+- Function that adds a line between 1 and 2 to an odd table (`add_1_2_line`)
+- Function that reverses the order of lines (`reverse_order`)
+- New optimal arrangements (`n=23`, `n=27`)
+
 ## [1.3.0] - 2024-11-07
 
 ### Added

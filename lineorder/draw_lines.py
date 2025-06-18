@@ -205,7 +205,7 @@ def draw_lines(
         "status" : "OK",
         "svg" : svg,
         "triangles" : triangles,
-        "upped_bound" : upper_bound,
+        "upper_bound" : upper_bound,
         "max_R" : max_R,
     }
 
