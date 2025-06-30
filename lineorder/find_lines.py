@@ -330,7 +330,7 @@ def solver(
         # The angle between the first and last lines is greater than MIN_A.
         (a0, c0) = get_ac(x, 0)
         (aN, cN) = get_ac(x, N - 1)
-        res += less_than(a0 - np.pi, aN + MIN_A) * angles_coefficient
+        res += less_than(a0 - np.pi, aN - MIN_A) * angles_coefficient
 
         return res
 
