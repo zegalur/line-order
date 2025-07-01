@@ -946,7 +946,7 @@ kobon = {
 
 'kobon_24_172tri' : {
     'entry_title' : '24-Line Solution (172 Triangles) by P.Savchuk ' + 
-                    '(based on prev. 23-line solution)',
+                    '(based on 23-line solution)',
     'entry_table' : lineorder.add_1_2_line(lineorder.reindex_table(
                         lineorder.reverse_order(kobon_23), 2), True),
     'first_row' : 1,
@@ -1068,7 +1068,7 @@ kobon = {
 
 'kobon_28_238tri' : {
     'entry_title' : '28-Line Solution (238 Triangles) by P.Savchuk ' + 
-                    '(based on prev. 27-line solution)\n' + 
+                    '(based on 27-line solution)\n' + 
                     '* Image is a close-up, some triangles can be cropped',
     'entry_table' : lineorder.add_1_2_line(kobon_27_1, False),
     'first_row' : 1,
@@ -1082,8 +1082,8 @@ kobon = {
     'draw_lines_args' : {
         'title_text' : 'by Pavlo Savchuk (2025)',
         'size_px' : 3000.0,
-        'scale_x' : 28.0,
-        'scale_y' : 28.0,
+        'scale_x' : 28.0 * 4.0,
+        'scale_y' : 28.0 * 4.0,
     },
 },
 
