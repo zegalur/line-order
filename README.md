@@ -12,7 +12,8 @@ Finally, this tool can generate bigger arrangements using existing one, or find 
 
 - [Gallery #1](https://zegalur.github.io/line-order/gallery/kobon.html) - Kobon triangle problem solutions.
 - [Gallery #2](https://zegalur.github.io/line-order/gallery/special.html) - Special solutions, suitable for Proposition 3.1.
-- [Gallery #3](https://zegalur.github.io/line-order/gallery/other.html) - Other.
+- [Gallery #3](https://zegalur.github.io/line-order/gallery/local.html) - Local zoom-in projections to enhance the readability of small triangles.
+- [Gallery #4](https://zegalur.github.io/line-order/gallery/other.html) - Other.
 - [Kobon-CNF](https://github.com/zegalur/kobon-cnf) - SAT-based solver for the Kobon triangle problem using Kissat and LineOrder.
 
 ## How To Use
