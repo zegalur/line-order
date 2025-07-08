@@ -25,4 +25,5 @@ LineOrder TODO list.
 - [x] Add: generate pseudo-line arrangements using a process similar to Proposition 3.1.
 - [x] Add: n=19 arrangements to the gallery.
 - [x] Add: n=20 arrangements to the gallery.
+- [x] Add: fish-eye projection for `draw_lines()`.
 
