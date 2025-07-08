@@ -8,20 +8,37 @@ from .utils import get_line_eq_value
 from .utils import svg_header
 
 
-# Projects a point according to a given fish-eye projection:
-def project(p, c, projection, factor):
-    x = (p[0] - c[0]) / c[0]
-    y = (p[1] - c[1]) / c[1]
+# Applies simple exponential "fish-eye" projection:
+def exp_proj(p,c,R,factor):
+    if np.linalg.norm(np.array(p) - np.array(c)) >= R:
+        return [ p[0], p[1] ]
+    x = (p[0] - c[0]) / R
+    y = (p[1] - c[1]) / R
+    r = min(1.0, math.sqrt(x*x + y*y))
+    r2 = r ** factor
+    scale = r2 / r if r != 0 else 1
+    x2 = x * scale
+    y2 = y * scale
+    return [x2 * R + c[0], y2 * R + c[1]]
+
+
+# Projects a point according to a given (complex) fish-eye projection:
+def project(p, c, R, projection, factor, local_fisheyes, local_factor):
+    if np.linalg.norm(np.array(p) - np.array(c)) >= R:
+        return [ p[0], p[1] ]
 
     if projection == 'exponential':
-        r = min(1.0, math.sqrt(x*x + y*y))
-        r2 = r ** factor
-        scale = r2 / r if r != 0 else 1
-        x2 = x * scale
-        y2 = y * scale
-        return [x2 * c[0] + c[0], y2 * c[1] + c[1]]
+        r0 = exp_proj(p,c,R,factor)
+        res = np.array(r0)
+        for count,cx,cy,radius in local_fisheyes:
+            r1 = exp_proj(r0,[cx,cy],radius,local_factor)
+            dr = np.array(r1) - np.array(r0)
+            res += dr
+        return [res[0], res[1]]
 
     if projection == 'spherical':
+        x = (p[0] - c[0]) / R
+        y = (p[1] - c[1]) / R
         r = min(1.0, math.sqrt(x*x + y*y))
         theta = math.atan(r)
         strength = factor# * math.pi / 2.0
@@ -30,21 +47,29 @@ def project(p, c, projection, factor):
         s2 = math.sin(math.atan(1.0) * strength) / math.sin(strength)
         x2 = x * scale / s2
         y2 = y * scale / s2
-        return [x2 * c[0] + c[0], y2 * c[1] + c[1]]
+        return [x2 * R + c[0], y2 * R + c[1]]
 
     else:
         return None
 
 
-# Returns SVG block for a line and a given projection:
-def get_line(delta_l, p1, p2, center, fisheye, projection, factor):
+# Returns SVG block for a line for a given projection:
+def get_line(
+        delta_l, 
+        p1, p2, center, 
+        fisheye, projection, factor, 
+        local_fisheyes, local_factor,
+        ):
     if fisheye == False:
         return "<line x1='{}' y1='{}' x2='{}' y2='{}' />\n".format(
             p1[0], p1[1], p2[0], p2[1])
 
     res = "<!-- line ({},{}) to ({},{}) -->\n".format(p1[0],p1[1], p2[0],p2[1])
 
-    r0 = project([p1[0],p1[1]], center, projection, factor)
+    R = center[0]
+    r0 = project(
+            [p1[0],p1[1]], center, R, projection, factor, 
+            local_fisheyes, local_factor)
     d = "M{},{}".format(r0[0], r0[1])
     p = p1
     l0 = np.linalg.norm(p2 - p1)
@@ -53,10 +78,12 @@ def get_line(delta_l, p1, p2, center, fisheye, projection, factor):
     while np.linalg.norm(p - p1) <= l0:
         delta = 0.0
         step = 1.0 / l0
-        r = project(p, center, projection, factor)
+        r = project(p, center, R, projection, factor, 
+                    local_fisheyes, local_factor)
         while True:
             n_p = p + dp * (delta + step)
-            n_r = np.array(project(n_p, center, projection, factor))
+            n_r = np.array(project(n_p, center, R, projection, factor, 
+                                   local_fisheyes, local_factor))
             pl = np.linalg.norm(n_r - last_r)
             if pl > delta_l:
                 step /= 2.0
@@ -74,7 +101,14 @@ def get_line(delta_l, p1, p2, center, fisheye, projection, factor):
     return res
 
 
-def get_tri(seg_count, t1,t2,t3, center, fisheye, projection, factor):
+# Returns SVG block for a triangle for a given projection:
+def get_tri(
+        seg_count, 
+        t1,t2,t3, 
+        center, 
+        fisheye, projection, factor,
+        local_fisheyes, local_factor,
+        ):
     if fisheye == False:
         return "<path d='M {} {} L {} {} L {} {}' />\n".format(
                     t1[0],t1[1], t2[0],t2[1], t3[0],t3[1])
@@ -82,20 +116,78 @@ def get_tri(seg_count, t1,t2,t3, center, fisheye, projection, factor):
     SEGMENTS = seg_count
     d = ""
     first = True
+    R = center[0]
     for p1,p2 in [(t1,t2), (t2,t3), (t3,t1)]:
       if first:
-        r = project([p1[0], p1[1]], center, projection, factor)
+        r = project([p1[0], p1[1]], center, R, projection, factor, 
+                    local_fisheyes, local_factor)
         d += "M{},{} ".format(r[0], r[1])
         first = False
       for i in range(1, SEGMENTS + 1):
         a = i / SEGMENTS
         px = p1[0] * (1.0 - a) + p2[0] * a
         py = p1[1] * (1.0 - a) + p2[1] * a
-        r = project([px,py], center, projection, factor)
+        r = project([px,py], center, R, projection, factor, 
+                    local_fisheyes, local_factor)
         d += "L{},{} ".format(r[0], r[1])
     d += "z"
     res = '<path d="{}" />\n'.format(d)
     return res
+
+
+# Returns incircle of given triangle:
+def get_incircle(t1,t2,t3, center, fisheye, projection, factor):
+    R = center[0]
+    p = [ np.array(project(t,center,R,projection,factor,[],factor) if fisheye else t) 
+          for t in [t1,t2,t3] ]
+    
+    # triangle side lengths:
+    a = np.linalg.norm(p[2] - p[1])
+    b = np.linalg.norm(p[2] - p[0])
+    c = np.linalg.norm(p[1] - p[0])
+
+    # incenter coordinates:
+    x = (a * p[0][0] + b * p[1][0] + c * p[2][0]) / (a + b + c)
+    y = (a * p[0][1] + b * p[1][1] + c * p[2][1]) / (a + b + c)
+
+    # inradius
+    s = (a + b + c) / 2.0
+    area = math.sqrt(s * (s - a) * (s - b) * (s - c))
+    r = area / s
+
+    return (x,y,r,area,a,b,c)
+
+
+# Filters and clusterizes a set of incircles:
+def filter_and_clusterize(
+        incircles, max_radius, cluster_radius, cluster_final_radius):
+    clusters = []
+    assigned = {}
+    for i in range(len(incircles)):
+        if i in assigned:
+            continue
+        x, y, r, area, a, b, c = incircles[i]
+        if r > max_radius: 
+            continue
+
+        assigned[i] = True
+        c = np.array([x,y])
+        points = [ np.array([x,y]) ]
+
+        for j in range(i + 1, len(incircles)):
+            if j in assigned:
+                continue
+            nx,ny,nr,narea,na,nb,nc = incircles[j]
+            if nr > max_radius:
+                continue
+            p = np.array([nx,ny])
+            if np.linalg.norm(c - p) < cluster_radius:
+                points.append(p)
+                c = np.mean(points,axis=0)
+                assigned[j] = True
+
+        clusters.append((len(points), c[0],c[1], cluster_final_radius))
+    return clusters
 
 
 def draw_lines(
@@ -109,11 +201,22 @@ def draw_lines(
         scale_x = 0.91,
         scale_y = 0.91,
         show_upper_bound = True,
+
         fisheye = False,
         projection = "exponential",
         factor = 1.0,
+        local_fisheyes = [], # (skip,cx,cy,r)
+        local_factor = 1.0,
         tri_seg_count = 100,
         delta_l = 1.5,
+
+        incircles = False,
+        draw_incircles = False,
+
+        clusterize = False,
+        min_radius = -2.0,
+        cluster_radius = -20.0,
+        cluster_final_radius = -20.0,
         ):
     """For a given set of straight lines this function will generate
     visual representation SVG file, with all lines and all non-overlapping
@@ -126,7 +229,7 @@ def draw_lines(
         `line_width_px` -- Line width in pixels.
         `title_text` -- A title text ("Generated by LineOrder" by default).
         `epsilon` -- Triangles with a side shorter than epsilon are not counted.
-        `fisheye` -- Apply `fisheye` distortion effect.
+        `fisheye` -- When `True`, applies `fisheye` distortion effect.
         `projection` -- Fish-eye projection type. Possible values are: \
                 `exponential` (default), `spherical`.
         `factor` -- fish-eye factor (default 1.0).
@@ -134,6 +237,8 @@ def draw_lines(
                 (`100` by default).
         `delta_l` -- line segment length for fish-eye projection, in pixels \
                 (`1.5` by default).
+        `incircles` -- when `True`, computes incircles of projected triangles.
+        `draw_incircles` -- when `True`, draws triangle incircles.
 
     Returns a dictionary:
         `status` -- The status of the operation (`OK` or `ERROR: [...]`).
@@ -142,6 +247,12 @@ def draw_lines(
         `upper_bound` -- Theoretical upper bound to the number of the \
             non-overlapping triangles.
         `max_R` -- The maximum distance from the (0,0) to a cross-point.
+        `incircles` -- when `incircles=True`, contains an array of all \
+            incircles of projected triangles in a form \
+            `[(cx,cy,r,area,a,b,c), ...]`, where `a,b,c` - sides.
+        `clusters` -- when `clusterize=True`, contains an array of clusters: \
+            `[(count, cx, cy, radius), ...]`
+
     """
 
     if projection not in ['exponential', 'spherical']:
@@ -157,9 +268,19 @@ def draw_lines(
     style += "\t\tline { stroke:black;stroke-width:" + str(line_width_px)
     style += ";vector-effect:non-scaling-stroke; }\n"
     style += "\t\tpath { fill: #000000; fill-opacity: 0.33; }\n"
-    style += "\t\tpath.line { fill:none"
-    style += ";stroke:black;stroke-width:" + str(line_width_px)
-    style += ";vector-effect:non-scaling-stroke; }\n"
+
+    if fisheye:
+        style += "\t\tpath.line { fill:none"
+        style += ";stroke:black;stroke-width:" + str(line_width_px)
+        style += ";vector-effect:non-scaling-stroke; }\n"
+
+    if draw_incircles:
+        style += "\t\tcircle.incircle { stroke:DarkSlateGrey;stroke-width:" + str(2*line_width_px)
+        style += ";fill:LightGreen;stroke-dasharray:0; }\n"
+
+    if clusterize:
+        style += "\t\tcircle.cluster { stroke:red;stroke-width:" + str(2*line_width_px)
+        style += ";fill:none;stroke-dasharray:0; }\n"
 
     svg = svg_header.format(
             style=style, 
@@ -267,6 +388,8 @@ def draw_lines(
 
     svg += "\n"
 
+    circles = []
+
     # Add triangles to the SVG.
     for t in triangles:
         t1 = (T @ [t[0], t[1]]).tolist()[0]
@@ -276,7 +399,13 @@ def draw_lines(
         svg += get_tri(tri_seg_count,
                        [x[0],x[1]], [x[2],x[3]], [x[4],x[5]],
                        [size_px/2, size_px/2],
-                       fisheye, projection, factor)
+                       fisheye, projection, factor, 
+                       local_fisheyes, local_factor)
+        if incircles:
+            circles.append(get_incircle(
+                       [x[0],x[1]], [x[2],x[3]], [x[4],x[5]],
+                       [size_px/2, size_px/2],
+                       fisheye, projection, factor))
 
     svg += "\n"
 
@@ -310,7 +439,38 @@ def draw_lines(
         svg += get_line(
                 delta_l,
                 r1,r2, [size_px/2, size_px/2], 
-                fisheye, projection, factor)
+                fisheye, projection, factor, 
+                local_fisheyes, local_factor)
+
+    # draw incircles if needed:
+    clusters = []
+    if draw_incircles:
+        min_r = size_px
+        svg += "\n"
+        for x,y,r,area,a,b,c in circles:
+            svg += "\n<circle class='incircle' cx='{}' cy='{}' r='{}' />".format(x,y,r)
+            if r < min_r:
+                min_r = r
+        svg += "\n"
+
+        # draw clusters
+        if clusterize:
+            if min_radius < 0.0:
+                min_radius = -min_radius * min_r
+            if cluster_radius < 0.0:
+                cluster_radius = -cluster_radius * min_r
+            if cluster_final_radius < 0.0:
+                cluster_final_radius = -cluster_final_radius * min_r
+            clusters = filter_and_clusterize(
+                    circles, min_radius, cluster_radius, cluster_final_radius)
+            svg += "\n"
+            for count,cx,cy,r in clusters:
+                svg += "\n<circle class='cluster' cx='{}' cy='{}' r='{}' />".format(
+                        cx, cy, r)
+                if min_r > r:
+                    r = min_r
+            svg += "\n"
+
 
     svg += "\n<circle cx='{r}' cy='{r}' r='{r}' />".format(r=int(size_px/2))
     svg += "\n\n</svg>"
@@ -321,6 +481,8 @@ def draw_lines(
         "triangles" : triangles,
         "upper_bound" : upper_bound,
         "max_R" : max_R,
+        "incircles" : circles,
+        "clusters" : clusters,
     }
 
     return res

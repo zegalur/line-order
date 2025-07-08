@@ -1063,6 +1063,34 @@ kobon = {
     },
 },
 
+################################################################################
+
+'kobon_27_225tri_2_fisheye' : {
+    'entry_title' : '27-Line Solution #2 in a fish-eye projection',
+    'entry_table' : kobon_27_2,
+    'first_row' : 6,
+    'table_font_size' : "6pt",
+    'find_lines_args' : {
+        "rotational_symmetry" : 3,
+        "main_coefficient" : 0.5,
+        "ineq_epsilon" : 0.03,
+    },
+    'draw_plines_args' : {
+        'title_text' : 'by Pavlo Savchuk (2025)',
+        'size_px' : 600.0,
+    },
+    'draw_lines_args' : {
+        'title_text' : 'by Pavlo Savchuk (2025)',
+        'size_px' : 1000.0,
+        'scale_x' : 1.1,
+        'scale_y' : 1.1,
+        'fisheye' : True,
+        'factor'  : 0.45,
+        'delta_l' : 4.5,
+        'tri_seg_count' : 25,
+    },
+},
+
 
 ################################################################################
 
