@@ -4,6 +4,12 @@ All significant modifications to this project will be recorded in this file. The
 
 ## [Unreleased]
 
+## [1.5.0] - 2025-07-08
+
+### Added
+
+- Fish-eye projection for `draw_lines()`.
+
 ## [1.4.0] - 2025-06-18
 
 ### Added
