@@ -2,6 +2,8 @@
 
 ![banner](docs/imgs/top_img.jpg)
 
+[[paper]](https://arxiv.org/abs/2507.07951)
+
 This small tool can help with finding an arrangement of straight lines that corresponds to a given arrangement of pseudolines (taking into account rotational or mirror symmetry). Also known as *straightening*.
 
 Additionally, for a given arrangement of pseudolines, it can generate a beautiful SVG file with a circular visual representation of the arrangement. For a given set of straight lines, it can generate a visual representation of these arrangements, showing all the non-overlapping triangles.
